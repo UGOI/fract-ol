@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/17 05:32:23 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/17 17:07:27 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void error(void)
 	exit(EXIT_FAILURE);
 }
 
-void ft_draw_fractal(mlx_image_t *img, float x)
+void ft_draw_fractal(mlx_image_t *img, float pixel_size, float top_left, float width)
 {
 	uint32_t	iter;
 	uint32_t	iter2;
@@ -36,15 +36,12 @@ void ft_draw_fractal(mlx_image_t *img, float x)
 
 	iter = 0;
 	iter2 = 0;
-	while (iter++ < x)
+	while (iter++ < pixel_size)
 	{
-		c.real = -2.0 + 4.0 / x * (float)iter;
-		// printf("%f\n", -2.0 + 4.0 / 100.0 * (float)iter);
-		while (iter2++ < x)
+		c.real = top_left + width / pixel_size * (float)iter;
+		while (iter2++ < pixel_size)
 		{
-			c.imaginary = 2.0 - 4.0 / x * (float)iter2;
-			// printf("%f, %f\n", c.real, c.imaginary);
-			// printf("\n%d\n", mandelbrot(c));
+			c.imaginary = -top_left - width / pixel_size * (float)iter2;
 			if (mandelbrot(c) == 0)
 				mlx_put_pixel(img, iter, iter2, 255);
 		}
@@ -57,10 +54,10 @@ int32_t	main(void)
 	mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	if (!mlx)
 		error();
-	mlx_image_t* img = mlx_new_image(mlx, 512, 512);
+	mlx_image_t* img = mlx_new_image(mlx, 1000, 1000);
 	if (!img)
 		error();
-	ft_draw_fractal(img, 512);
+	ft_draw_fractal(img, 1000, -1, 2);
 	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
 		error();
 

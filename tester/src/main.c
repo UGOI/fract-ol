@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:49:45 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/17 16:04:03 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/17 16:23:49 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ void	fill_complex_number_with_random_values(t_complex *c)
 	c->imaginary = ft_random(-10, 10);
 }
 
-void	test_complex(t_complex *(*f)(t_complex*, t_complex*), char operator)
+void	test_complex(t_complex *(*f)(t_complex*, t_complex*, t_complex*), char operator)
 {
 	t_complex		c1;
 	t_complex		c2;
-	double complex	result;
+	t_complex		res;
+	double complex	expected_res;
 	int				iter;
 
 	iter = 6;
@@ -53,16 +54,16 @@ void	test_complex(t_complex *(*f)(t_complex*, t_complex*), char operator)
 		// c2.imaginary = 0.18;
 		// printf("c1:	%.2f %+.2f\nc2:	%.2f %+.2f\n", c1.real, c1.imaginary, c2.real, c2.imaginary);
 		if (operator == '+')
-			result = (c1.real + c1.imaginary * I) + (c2.real + c2.imaginary * I);
+			expected_res = (c1.real + c1.imaginary * I) + (c2.real + c2.imaginary * I);
 		if (operator == '-')
-			result = (c1.real + c1.imaginary * I) - (c2.real + c2.imaginary * I);
+			expected_res = (c1.real + c1.imaginary * I) - (c2.real + c2.imaginary * I);
 		if (operator == '*')
-			result = (c1.real + c1.imaginary * I) * (c2.real + c2.imaginary * I);
+			expected_res = (c1.real + c1.imaginary * I) * (c2.real + c2.imaginary * I);
 		if (operator == '/')
-			result = (c1.real + c1.imaginary * I) / (c2.real + c2.imaginary * I);
-		printf("Expected result:	%.3f %+.3fi\n", creal(result), cimag(result));
-		(*f)(&c1, &c2);
-		printf("Result:			%.3f %+.3fi\n\n", c1.real, c1.imaginary);
+			expected_res = (c1.real + c1.imaginary * I) / (c2.real + c2.imaginary * I);
+		printf("Expected result:	%.3f %+.3fi\n", creal(expected_res), cimag(expected_res));
+		(*f)(&c1, &c2, &res);
+		printf("Result:			%.3f %+.3fi\n\n", res.real, res.imaginary);
 	}
 }
 

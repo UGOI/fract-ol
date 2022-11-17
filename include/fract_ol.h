@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/17 03:44:15 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/17 16:08:20 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ typedef struct s_complex
 	float	imaginary;
 }	t_complex;
 
-t_complex	*ft_add_complex(t_complex *c1, t_complex *c2);
+t_complex	*ft_add_complex(t_complex *c1, t_complex *c2, t_complex *res);
 
-t_complex	*ft_subtract_complex(t_complex *c1, t_complex *c2);
+t_complex	*ft_subtract_complex(t_complex *c1, t_complex *c2, t_complex *res);
 
-t_complex	*ft_multiply_complex(t_complex *c1, t_complex *c2);
+t_complex	*ft_multiply_complex(t_complex *c1, t_complex *c2, t_complex *res);
 
-t_complex	*ft_divide_complex(t_complex *c1, t_complex *c2);
+t_complex	*ft_divide_complex(t_complex *c1, t_complex *c2, t_complex *res);
 
 float		ft_squared_absolute_complex(t_complex c);
 
