@@ -5,7 +5,7 @@ VERSION = $(shell ls $(BREW)/Cellar/glfw/)
 
 HEADERS			:= -I ../include -I $(LIBMLX)/include
 LIBS			:= $(LIBMLX)/libmlx42.a -lglfw -L $(BREW)/Cellar/glfw/$(VERSION)/lib/
-SRCS_COMPLEX	:= $(shell find ./src -iname "*.c") ../src/complex.c
+SRCS_COMPLEX	:= $(shell find ./src -iname "*.c") ../src/complex.c ../src/fractals.c
 OBJS_COMPLEX	:= ${SRCS_COMPLEX:.c=.o}
 OBJ_PATH	= ./obj/
 SRC_PATH	= ./src/

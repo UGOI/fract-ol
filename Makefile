@@ -18,7 +18,7 @@ libmlx:
 	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
 
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 
 clean:
 	@rm -f $(OBJS)
@@ -28,6 +28,6 @@ fclean: clean
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBMLX) fclean
 
-re: clean all
+re: fclean all
 
 .PHONY: all, clean, fclean, re, libmlx
