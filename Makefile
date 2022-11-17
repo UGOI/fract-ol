@@ -1,5 +1,6 @@
 NAME	:= fract_ol
-CFLAGS	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+CFLAGS	:=
+CFLAGS2	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast
 LIBMLX	:= ./lib/MLX42
 BREW = $(shell which brew | rev | cut -c 9- | rev)
 VERSION = $(shell ls $(BREW)/Cellar/glfw/)

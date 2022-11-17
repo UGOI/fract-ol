@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:49:45 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/17 16:23:49 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/17 17:39:10 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ void	test_mandelbrot(void)
 	t_complex		c;
 	int				iterations;
 
-	c.real = -0.77;
-	c.imaginary = 0.18;
+	c.real = 0.0000000000;
+	c.imaginary = -1.0000000000;
 	printf("%s	TEST_MANDELBROT:	\n", KYEL);
 	printf("%s",KNRM);
 	iterations = mandelbrot(c);

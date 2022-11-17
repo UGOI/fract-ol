@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/17 17:07:27 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/17 20:13:42 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,39 @@ static void error(void)
 	exit(EXIT_FAILURE);
 }
 
-void ft_draw_fractal(mlx_image_t *img, float pixel_size, float top_left, float width)
+void ft_draw_fractal(mlx_image_t *img, float x_pixels, float y_pixels, float left_x, float width)
 {
-	uint32_t	iter;
-	uint32_t	iter2;
+	int	iter;
+	int	iter2;
 	t_complex	c;
+	float		x_steps;
+	float		y_steps;
 
 	iter = 0;
 	iter2 = 0;
-	while (iter++ < pixel_size)
+	if (x_pixels > y_pixels)
 	{
-		c.real = top_left + width / pixel_size * (float)iter;
-		while (iter2++ < pixel_size)
+		x_steps = width / x_pixels;
+		y_steps = width / x_pixels;
+	}
+	else
+	{
+		x_steps = width / y_pixels;
+		y_steps = width / y_pixels;
+	}
+	while (iter < (x_pixels - 1))
+	{
+		c.real = left_x + width / x_pixels * (float)iter;
+		while (iter2 < (y_pixels - 1))
 		{
-			c.imaginary = -top_left - width / pixel_size * (float)iter2;
+			c.imaginary = -left_x - width / x_pixels * (float)iter2;
+			// printf("c:	%.10f %+.10fi\n", c.real, c.imaginary);
 			if (mandelbrot(c) == 0)
 				mlx_put_pixel(img, iter, iter2, 255);
+			iter2++;
 		}
+	// printf("iter:	%d, iter2: %d\n", iter, iter2);
+	iter++;
 	iter2 = 0;
 	}
 }
@@ -54,10 +70,10 @@ int32_t	main(void)
 	mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	if (!mlx)
 		error();
-	mlx_image_t* img = mlx_new_image(mlx, 1000, 1000);
+	mlx_image_t* img = mlx_new_image(mlx, 5120, 2880);
 	if (!img)
 		error();
-	ft_draw_fractal(img, 1000, -1, 2);
+	ft_draw_fractal(img, 1000, 1000, -2, 4);
 	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
 		error();
 
