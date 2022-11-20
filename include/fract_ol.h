@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/20 19:47:42 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/20 21:29:31 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ typedef struct s_fractal
 	t_vector	top_right;
 	t_vector	bottom_left;
 }	t_fractal;
+
+typedef struct s_point_distances;
+{
+	float	top;
+	float	bottom;
+	float	left;
+	float	right;
+}	t_point_distances;
 
 t_complex	*ft_add_complex(t_complex *c1, t_complex *c2, t_complex *res);
 
