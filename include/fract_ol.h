@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/17 16:08:20 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/20 19:47:42 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@ typedef struct s_complex
 	float	real;
 	float	imaginary;
 }	t_complex;
+
+typedef struct s_vector
+{
+	float	x;
+	float	y;
+}	t_vector;
+
+typedef struct s_fractal
+{
+	t_vector	top_left;
+	t_vector	top_right;
+	t_vector	bottom_left;
+}	t_fractal;
 
 t_complex	*ft_add_complex(t_complex *c1, t_complex *c2, t_complex *res);
 
