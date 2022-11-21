@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/21 00:23:03 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/21 16:37:42 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,99 +56,84 @@ void ft_draw_fractal(mlx_image_t *img, t_fractal fractal, t_vector screen_dimens
 	}
 }
 
-void ft_zoom(t_fractal fractal, float enlargement_ratio, t_vector zoom_point, int reset)
+float	ft_get_point_comp(float zoom_point_comp, float d_comp)
 {
-	t_fractal 			temp_fractal;
+	float		res;
+	float		base;
+
+	base = 0.95;
+	res = zoom_point_comp + d_comp * base;
+	return (res);
+}
+
+t_fractal	ft_get_zoomed_fractal(t_fractal fractal, t_vector zoom_point)
+{
+	t_fractal			zoom_fractal;
 	t_point_distances	distances;
 	float				base;
-	static float		exponent;
 
-	if (!exponent)
-		exponent = 1;
-	if (reset)
-		exponent = 1;
 	distances.top = fractal.top_left.y - zoom_point.y;
-	distances.botton = zoom_point.y - fractal.bottom_left.y;
+	distances.bottom = zoom_point.y - fractal.bottom_left.y;
 	distances.left = fractal.top_left.x - zoom_point.x;
 	distances.right = zoom_point.x - fractal.top_right.x;
-	base = 1 /enlargement_ratio;
+	zoom_fractal.top_left.x = ft_get_point_comp(zoom_point.x, -distances.left);
+	zoom_fractal.top_left.y = ft_get_point_comp(zoom_point.y, distances.top);
+	zoom_fractal.bottom_left.x = zoom_fractal.top_left.x;
+	zoom_fractal.bottom_left.y = ft_get_point_comp(zoom_point.y, -distances.bottom);
+	zoom_fractal.top_right.x = ft_get_point_comp(zoom_point.x, distances.right);
+	zoom_fractal.top_right.y = zoom_fractal.top_left.y;
+	return (zoom_fractal);
+}
 
-//If 1 trash
-	if (distance.top < distance.bottom)
-	{
-		temp_fractal.top_left.y = zoom_point.y + distances.bottom * powf(base, exponent);
-		temp_fractal.top_right.y = temp_fractal.top_left.y;
-		temp_fractal.bottom_left.y = zoom_point.y - distances.bottom * powf(base, exponent);
-	}
-	else if (distance.top >= distance.bottom)
-	{
-		temp_fractal.top_left.y = zoom_point.y + distances.top * powf(base, exponent);
-		temp_fractal.top_right.y = temp_fractal.top_left.y;
-		temp_fractal.bottom_left.y = zoom_point.y - distances.top * powf(base, exponent);
-	}
+void	my_scrollhook(double xdelta, double ydelta, void* param)
+{
+	// Simple up or down detection.
+	if (ydelta > 0)
+		puts("Up!");
+	else if (ydelta < 0)
+		puts("Down!");
 
-	if (distance.right < distance.left)
-	{
-		temp_fractal.top_left.x = zoom_point.x - distances.left * powf(base, exponent);
-		temp_fractal.bottom_left.x = temp_fractal.top_left.x;
-		temp_fractal.top_right.x = zoom_point.x + distances.left * powf(base, exponent);
-	}
-	else if (distance.right >= distance.left)
-	{
-		temp_fractal.top_left.x = zoom_point.x - distances.right * powf(base, exponent);
-		temp_fractal.bottom_left.x = temp_fractal.top_left.x;
-		temp_fractal.top_right.x = zoom_point.x + distances.right * powf(base, exponent);
-	}
-
-//If 2 trash
-	if (distance.top < distance.bottom)
-	{
-		fractal.bottom_left.y = temp_fractal.bottom_left.y;
-	}
-	else if (distance.top >= distance.bottom)
-	{
-		fractal.top_left.y = temp_fractal.top_left.y;
-		fractal.top_right.y = temp_fractal.top_right.y;
-	}
-
-	if (distance.right < distance.left)
-	{
-		fractal.top_left.x = temp_fractal.top_left.x;
-		fractal.bottom_left.x = temp_fractal.bottom_left.x;
-	}
-	else if (distance.right >= distance.left)
-	{
-		fractal.top_right.x = temp_fractal.top_right.x;
-	}
-	exponent++;
+	// Can also detect a mousewheel that go along the X (e.g: MX Master 3)
+	if (xdelta < 0)
+		puts("Sliiiide to the left!");
+	else if (xdelta > 0)
+		puts("Sliiiide to the right!");
 }
 
 int32_t	main(void)
 {
-	t_vector screen_dimensions;
-	t_fractal mandelbrot;
+	t_vector		screen_dimensions;
+	t_fractal		initial_mandelbrot;
+	t_fractal		mandelbrot;
+	mlx_t*			mlx;
+	mlx_image_t*	img;
 
 	screen_dimensions.x = 1000;
 	screen_dimensions.y = 1000;
+	initial_mandelbrot.top_left.x = -2;
+	initial_mandelbrot.top_left.y = 2;
+	initial_mandelbrot.top_right.x = 2;
+	initial_mandelbrot.top_right.y = 2;
+	initial_mandelbrot.bottom_left.x = -2;
+	initial_mandelbrot.bottom_left.y = -2;
 
-	mandelbrot.top_left.x = -2;
-	mandelbrot.top_left.y = 2;
-	mandelbrot.top_right.x = 2;
-	mandelbrot.top_right.y = 2;
-	mandelbrot.bottom_left.x = -2;
-	mandelbrot.bottom_left.y = -2;
+	mandelbrot.top_left.x = initial_mandelbrot.top_left.x;
+	mandelbrot.top_left.y = initial_mandelbrot.top_left.y;
+	mandelbrot.top_right.x = initial_mandelbrot.top_right.x;
+	mandelbrot.top_right.y = initial_mandelbrot.top_right.y;
+	mandelbrot.bottom_left.x = initial_mandelbrot.bottom_left.x;
+	mandelbrot.bottom_left.y = initial_mandelbrot.bottom_left.y;
 
-	mlx_t* mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
+	mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	if (!mlx)
 		error();
-	mlx_image_t* img = mlx_new_image(mlx, 5120, 2880);
+	img = mlx_new_image(mlx, 5120, 2880);
 	if (!img)
 		error();
-	// ft_draw_fractal(img, 1000, 1000, -2, 4);
+	mlx_scroll_hook(mlx, &my_scrollhook, NULL);
 	ft_draw_fractal(img, mandelbrot, screen_dimensions);
 	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
 		error();
-
 	mlx_loop(mlx);
 	mlx_delete_image(mlx, img);
 	mlx_terminate(mlx);
