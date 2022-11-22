@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/21 16:36:01 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/21 21:37:01 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include <math.h>
 # include <unistd.h>
 # include <stdio.h>
+# include "MLX42/MLX42.h"
 
 typedef struct s_complex
 {
@@ -42,6 +43,13 @@ typedef struct s_point_distances
 	float	left;
 	float	right;
 }	t_point_distances;
+
+typedef struct s_scroll_hook_param
+{
+	mlx_image_t		*img;
+	t_vector		screen_dimensions;
+}	t_scroll_hook_param;
+
 
 t_complex	*ft_add_complex(t_complex *c1, t_complex *c2, t_complex *res);
 
