@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/22 02:16:52 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/22 03:14:04 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,14 +128,19 @@ void 		ft_zoom(t_vector zoom_point, mlx_image_t *img)
 void	my_scrollhook(double xdelta, double ydelta, void* param)
 {
 	t_vector		zoom_point;
-	mlx_image_t		*img;
+	int32_t			*x;
+	int32_t			*y;
+	t_scroll_hook_param *scroll_hook_param;
+
 
 	zoom_point.x = 0;
 	zoom_point.y = 0.75;
-	img = param;
+	scroll_hook_param = param;
+	// mlx_get_mouse_pos(scroll_hook_param->mlx, x, y);
+	// printf("x: %d, y: %d\n", *x, *y);
 	if (ydelta > 0)
 	{
-		ft_zoom(zoom_point, img);
+		ft_zoom(zoom_point, scroll_hook_param->img);
 		// puts("Up!");
 	}
 	else if (ydelta < 0)
@@ -148,23 +153,24 @@ int32_t	main(void)
 {
 	t_fractal			initial_mandelbrot;
 	t_fractal			mandelbrot;
-	mlx_t				*mlx;
-	mlx_image_t			*img;
+	t_scroll_hook_param scroll_hook_param;
 
 	ft_initialize_mandelbrot(&mandelbrot);
 	ft_initialize_mandelbrot(&initial_mandelbrot);
-	mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
-	if (!mlx)
+	scroll_hook_param.mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
+	if (!scroll_hook_param.mlx)
 		error();
-	img = mlx_new_image(mlx, 500, 500);
-	if (!img)
+	scroll_hook_param.img = mlx_new_image(scroll_hook_param.mlx, 500, 500);
+	if (!scroll_hook_param.img)
 		error();
-	mlx_scroll_hook(mlx, &my_scrollhook, img);
-	ft_draw_fractal(img, mandelbrot);
-	if (mlx_image_to_window(mlx, img, 0, 0) < 0)
+	// scroll_hook_param.img = img;
+	scroll_hook_param.mlx = scroll_hook_param.mlx;
+	mlx_scroll_hook(scroll_hook_param.mlx, &my_scrollhook, &scroll_hook_param);
+	ft_draw_fractal(scroll_hook_param.img, mandelbrot);
+	if (mlx_image_to_window(scroll_hook_param.mlx, scroll_hook_param.img, 0, 0) < 0)
 		error();
-	mlx_loop(mlx);
-	mlx_delete_image(mlx, img);
-	mlx_terminate(mlx);
+	mlx_loop(scroll_hook_param.mlx);
+	mlx_delete_image(scroll_hook_param.mlx, scroll_hook_param.img);
+	mlx_terminate(scroll_hook_param.mlx);
 	return (EXIT_SUCCESS);
 }
