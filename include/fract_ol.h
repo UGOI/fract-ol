@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/21 21:37:01 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/22 02:13:51 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@
 
 typedef struct s_complex
 {
-	float	real;
-	float	imaginary;
+	long double	real;
+	long double	imaginary;
 }	t_complex;
 
 typedef struct s_vector
 {
-	float	x;
-	float	y;
+	long double	x;
+	long double	y;
 }	t_vector;
 
 typedef struct s_fractal
@@ -38,10 +38,10 @@ typedef struct s_fractal
 
 typedef struct s_point_distances
 {
-	float	top;
-	float	bottom;
-	float	left;
-	float	right;
+	long double	top;
+	long double	bottom;
+	long double	left;
+	long double	right;
 }	t_point_distances;
 
 typedef struct s_scroll_hook_param
@@ -59,7 +59,7 @@ t_complex	*ft_multiply_complex(t_complex *c1, t_complex *c2, t_complex *res);
 
 t_complex	*ft_divide_complex(t_complex *c1, t_complex *c2, t_complex *res);
 
-float		ft_squared_absolute_complex(t_complex c);
+long double		ft_squared_absolute_complex(t_complex c);
 
 int			mandelbrot(t_complex c);
 

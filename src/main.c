@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/22 01:54:35 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/22 02:16:52 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ void ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 	function_dimensions.y = fractal.top_left.y - fractal.bottom_left.y;
 	iter.x = 0;
 	iter.y = 0;
-	steps.x = function_dimensions.x / (float)img->width;
-	steps.y = function_dimensions.y / (float)img->height;
-	while (iter.x < ((float)img->width - 1))
+	steps.x = function_dimensions.x / (long double)img->width;
+	steps.y = function_dimensions.y / (long double)img->height;
+	while (iter.x < ((long double)img->width - 1))
 	{
-		c.real = fractal.top_left.x + steps.x * (float)iter.x;
-		while (iter.y < ((float)img->height - 1))
+		c.real = fractal.top_left.x + steps.x * (long double)iter.x;
+		while (iter.y < ((long double)img->height - 1))
 		{
-			c.imaginary = fractal.top_left.y - steps.y * (float)iter.y;
+			c.imaginary = fractal.top_left.y - steps.y * (long double)iter.y;
 			if (mandelbrot(c) == 0)
 				mlx_put_pixel(img, iter.x, iter.y, 255);
 			iter.y++;
@@ -63,10 +63,10 @@ void ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 	}
 }
 
-float	ft_get_zoom_point_comp(float zoom_point_comp, float d_comp)
+long double	ft_get_zoom_point_comp(long double zoom_point_comp, long double d_comp)
 {
-	float		res;
-	float		base;
+	long double		res;
+	long double		base;
 
 	base = 0.95;
 	res = zoom_point_comp + d_comp * base;
@@ -77,7 +77,7 @@ t_fractal	ft_get_zoomed_fractal(t_fractal fractal, t_vector zoom_point)
 {
 	t_fractal			zoom_fractal;
 	t_point_distances	distances;
-	float				base;
+	long double				base;
 
 	distances.top = fractal.top_left.y - zoom_point.y;
 	distances.bottom = zoom_point.y - fractal.bottom_left.y;
@@ -119,9 +119,9 @@ void 		ft_zoom(t_vector zoom_point, mlx_image_t *img)
 
 	if (!ft_fractal_initialized(zoomed_fractal))
 		ft_initialize_mandelbrot(&zoomed_fractal);
-	printf("\nzoomed_fractal.top_left.x: %f, zoomed_fractal.top_left.y: %f\n", zoomed_fractal.top_left.x, zoomed_fractal.top_left.y);
+	printf("\nzoomed_fractal.top_left.x: %Lf, zoomed_fractal.top_left.y: %Lf\n", zoomed_fractal.top_left.x, zoomed_fractal.top_left.y);
 	zoomed_fractal = ft_get_zoomed_fractal(zoomed_fractal, zoom_point);
-	printf("\nzoomed_fractal.top_left.x: %f, zoomed_fractal.top_left.y: %f\n", zoomed_fractal.top_left.x, zoomed_fractal.top_left.y);
+	printf("\nzoomed_fractal.top_left.x: %Lf, zoomed_fractal.top_left.y: %Lf\n", zoomed_fractal.top_left.x, zoomed_fractal.top_left.y);
 	ft_draw_fractal(img, zoomed_fractal);
 }
 
