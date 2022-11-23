@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 19:18:44 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/23 22:09:06 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/23 22:15:14 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,23 @@ long double	ft_get_zoom_point_comp(long double zoom_point_comp
 t_fractal	ft_get_zoomed_fractal(t_fractal fractal
 , t_vector zoom_point, int direction)
 {
-	t_fractal			zoom_fractal;
 	t_point_distances	distances;
 
-	zoom_fractal = fractal;
 	distances.top = fractal.top_left.y - zoom_point.y;
 	distances.bottom = zoom_point.y - fractal.bottom_left.y;
 	distances.left = zoom_point.x - fractal.top_left.x;
 	distances.right = fractal.top_right.x - zoom_point.x;
-	zoom_fractal.top_left.x = ft_get_zoom_point_comp(zoom_point.x,
+	fractal.top_left.x = ft_get_zoom_point_comp(zoom_point.x,
 			-distances.left, direction);
-	zoom_fractal.top_left.y = ft_get_zoom_point_comp(zoom_point.y,
+	fractal.top_left.y = ft_get_zoom_point_comp(zoom_point.y,
 			distances.top, direction);
-	zoom_fractal.bottom_left.x = zoom_fractal.top_left.x;
-	zoom_fractal.bottom_left.y = ft_get_zoom_point_comp(zoom_point.y,
+	fractal.bottom_left.x = fractal.top_left.x;
+	fractal.bottom_left.y = ft_get_zoom_point_comp(zoom_point.y,
 			-distances.bottom, direction);
-	zoom_fractal.top_right.x = ft_get_zoom_point_comp(zoom_point.x,
+	fractal.top_right.x = ft_get_zoom_point_comp(zoom_point.x,
 			distances.right, direction);
-	zoom_fractal.top_right.y = zoom_fractal.top_left.y;
-	return (zoom_fractal);
+	fractal.top_right.y = fractal.top_left.y;
+	return (fractal);
 }
 
 void	ft_zoom(t_vector zoom_point
@@ -55,16 +53,9 @@ void	ft_zoom(t_vector zoom_point
 {
 	static t_fractal	zoomed_fractal;
 
-	if (fractal.julia == 0)
-	{
-		if (!ft_fractal_initialized(zoomed_fractal))
-			ft_initialize_mandelbrot(&zoomed_fractal);
-	}
-	else
-	{
-		if (!ft_fractal_initialized(zoomed_fractal))
-			ft_initialize_julia(&zoomed_fractal);
-	}
+	if (!ft_fractal_initialized(zoomed_fractal))
+		zoomed_fractal = fractal;
+
 	zoom_point.x = (zoomed_fractal.top_left.x) + (zoom_point.x)
 		/ (img->width) * (zoomed_fractal.top_right.x
 			- zoomed_fractal.top_left.x);

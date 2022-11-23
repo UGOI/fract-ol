@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/23 22:02:48 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/23 22:34:25 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 		while (iter.y < ((long double)img->height - 1))
 		{
 			c.imaginary = fractal.top_left.y - steps.y * (long double)iter.y;
-			iterations = mandelbrot_eq(c, fractal.julia, (t_complex){0.5, 0.5});
+			iterations = mandelbrot_eq(c, fractal.julia, fractal.constant);
 			mlx_put_pixel(img, iter.x, iter.y, ft_sinus_colors(iterations));
 			iter.y++;
 		}
@@ -88,8 +88,8 @@ int32_t	main(int argc, char* argv[])
 	if (!strcmp(argv[1], "julia"))
 	{
 		ft_initialize_julia(&fractal);
-		fractal.constant.real = 0;
-		fractal.constant.imaginary = 0;
+		fractal.constant.real = (long double)atof(argv[2]) ;
+		fractal.constant.imaginary = (long double)atof(argv[3]);
 		scroll_hook_param.fractal = fractal;
 	}
 	else
