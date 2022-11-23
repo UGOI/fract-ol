@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/22 03:14:04 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/23 11:37:28 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,31 +63,32 @@ void ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 	}
 }
 
-long double	ft_get_zoom_point_comp(long double zoom_point_comp, long double d_comp)
+long double	ft_get_zoom_point_comp(long double zoom_point_comp, long double d_comp, int direction)
 {
 	long double		res;
 	long double		base;
 
 	base = 0.95;
+	if (direction < 0)
+		base = 1 / base;
 	res = zoom_point_comp + d_comp * base;
 	return (res);
 }
 
-t_fractal	ft_get_zoomed_fractal(t_fractal fractal, t_vector zoom_point)
+t_fractal	ft_get_zoomed_fractal(t_fractal fractal, t_vector zoom_point, int direction)
 {
 	t_fractal			zoom_fractal;
 	t_point_distances	distances;
-	long double				base;
 
 	distances.top = fractal.top_left.y - zoom_point.y;
 	distances.bottom = zoom_point.y - fractal.bottom_left.y;
 	distances.left = zoom_point.x - fractal.top_left.x;
 	distances.right = fractal.top_right.x - zoom_point.x;
-	zoom_fractal.top_left.x = ft_get_zoom_point_comp(zoom_point.x, -distances.left);
-	zoom_fractal.top_left.y = ft_get_zoom_point_comp(zoom_point.y, distances.top);
+	zoom_fractal.top_left.x = ft_get_zoom_point_comp(zoom_point.x, -distances.left, direction);
+	zoom_fractal.top_left.y = ft_get_zoom_point_comp(zoom_point.y, distances.top, direction);
 	zoom_fractal.bottom_left.x = zoom_fractal.top_left.x;
-	zoom_fractal.bottom_left.y = ft_get_zoom_point_comp(zoom_point.y, -distances.bottom);
-	zoom_fractal.top_right.x = ft_get_zoom_point_comp(zoom_point.x, distances.right);
+	zoom_fractal.bottom_left.y = ft_get_zoom_point_comp(zoom_point.y, -distances.bottom, direction);
+	zoom_fractal.top_right.x = ft_get_zoom_point_comp(zoom_point.x, distances.right, direction);
 	zoom_fractal.top_right.y = zoom_fractal.top_left.y;
 	return (zoom_fractal);
 }
@@ -104,7 +105,6 @@ int	ft_fractal_initialized(t_fractal fractal)
 
 void	ft_initialize_mandelbrot(t_fractal *mandelbrot)
 {
-	printf("initialize mandelbrot\n");
 	mandelbrot->top_left.x = -2;
 	mandelbrot->top_left.y = 2;
 	mandelbrot->top_right.x = 2;
@@ -113,38 +113,43 @@ void	ft_initialize_mandelbrot(t_fractal *mandelbrot)
 	mandelbrot->bottom_left.y = -2;
 }
 
-void 		ft_zoom(t_vector zoom_point, mlx_image_t *img)
+void 		ft_zoom(t_vector zoom_point, mlx_image_t *img, int direction)
 {
 	static t_fractal	zoomed_fractal;
 
+
 	if (!ft_fractal_initialized(zoomed_fractal))
 		ft_initialize_mandelbrot(&zoomed_fractal);
-	printf("\nzoomed_fractal.top_left.x: %Lf, zoomed_fractal.top_left.y: %Lf\n", zoomed_fractal.top_left.x, zoomed_fractal.top_left.y);
-	zoomed_fractal = ft_get_zoomed_fractal(zoomed_fractal, zoom_point);
-	printf("\nzoomed_fractal.top_left.x: %Lf, zoomed_fractal.top_left.y: %Lf\n", zoomed_fractal.top_left.x, zoomed_fractal.top_left.y);
+	zoom_point.x = (zoomed_fractal.top_left.x)+(zoom_point.x)/(img->width)*(zoomed_fractal.top_right.x - zoomed_fractal.top_left.x);
+	zoom_point.y = (zoomed_fractal.top_left.y)-(zoom_point.y)/(img->height)*(zoomed_fractal.top_left.y - zoomed_fractal.bottom_left.y);;
+	// printf("\nx: %Lf, y: %Lf\n", zoom_point.x, zoom_point.y);
+	// printf("\nzoomed_fractal.top_left.x: %Lf, zoomed_fractal.top_left.y: %Lf\n", zoomed_fractal.top_left.x, zoomed_fractal.top_left.y);
+	zoomed_fractal = ft_get_zoomed_fractal(zoomed_fractal, zoom_point, direction);
+	// printf("\nzoomed_fractal.top_left.x: %Lf, zoomed_fractal.top_left.y: %Lf\n", zoomed_fractal.top_left.x, zoomed_fractal.top_left.y);
 	ft_draw_fractal(img, zoomed_fractal);
 }
 
 void	my_scrollhook(double xdelta, double ydelta, void* param)
 {
 	t_vector		zoom_point;
-	int32_t			*x;
-	int32_t			*y;
+	int32_t			x;
+	int32_t			y;
 	t_scroll_hook_param *scroll_hook_param;
 
-
-	zoom_point.x = 0;
-	zoom_point.y = 0.75;
+	x = 0;
+	y = 0;
 	scroll_hook_param = param;
-	// mlx_get_mouse_pos(scroll_hook_param->mlx, x, y);
-	// printf("x: %d, y: %d\n", *x, *y);
+	mlx_get_mouse_pos(scroll_hook_param->mlx, &x, &y);
+	zoom_point.x = (long double)x;
+	zoom_point.y = (long double)y;
 	if (ydelta > 0)
 	{
-		ft_zoom(zoom_point, scroll_hook_param->img);
+		ft_zoom(zoom_point, scroll_hook_param->img, 1);
 		// puts("Up!");
 	}
 	else if (ydelta < 0)
 	{
+		ft_zoom(zoom_point, scroll_hook_param->img, -1);
 		// puts("Down!");
 	}
 }
@@ -163,8 +168,6 @@ int32_t	main(void)
 	scroll_hook_param.img = mlx_new_image(scroll_hook_param.mlx, 500, 500);
 	if (!scroll_hook_param.img)
 		error();
-	// scroll_hook_param.img = img;
-	scroll_hook_param.mlx = scroll_hook_param.mlx;
 	mlx_scroll_hook(scroll_hook_param.mlx, &my_scrollhook, &scroll_hook_param);
 	ft_draw_fractal(scroll_hook_param.img, mandelbrot);
 	if (mlx_image_to_window(scroll_hook_param.mlx, scroll_hook_param.img, 0, 0) < 0)
