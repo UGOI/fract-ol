@@ -6,13 +6,14 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/23 11:37:28 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/23 19:06:43 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // Written by Bruh
 
 #include <stdlib.h>
+#include <limits.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -29,33 +30,63 @@ static void error(void)
 	exit(EXIT_FAILURE);
 }
 
+// 'Encodes' four individual bytes into an int.
+int get_rgba(int r, int g, int b, int a)
+{
+	return (r << 24 | g << 16 | b << 8 | a);
+}
+
 void	ft_erase_img_content(mlx_image_t *img)
 {
 	memset(img->pixels, 255, img->width * img->height * BPP);
 }
 
-void ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
+int	ft_sinus_colors(int iterations)
+{
+	if (iterations == 0)
+		return (255);
+	else
+	{
+		return (
+			get_rgba((int)((sin(iterations * 0.8 + 3.0) + 1.0) / 2.0 * 255.0)
+			, (int)((sin(iterations * 0.5 + 4.0) + 1.0) / 2.0 * 255.0)
+			, (int)((sin(iterations * 0.3 + 1.0) + 1.0) / 2.0 * 255.0)
+			, 255));
+	}
+}
+
+int	ft_ordered_linear_colors(int iterations)
+{
+	if (iterations == 0)
+		return (255);
+	else
+	{
+		return ((RGB_MAX * iterations / ITER << 8) | 255);
+	}
+}
+
+void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 {
 	t_vector	function_dimensions;
 	t_vector	iter;
 	t_complex	c;
 	t_vector	steps;
+	int			iterations;
 
 	ft_erase_img_content(img);
 	function_dimensions.x = fractal.top_right.x - fractal.top_left.x;
 	function_dimensions.y = fractal.top_left.y - fractal.bottom_left.y;
-	iter.x = 0;
-	iter.y = 0;
 	steps.x = function_dimensions.x / (long double)img->width;
 	steps.y = function_dimensions.y / (long double)img->height;
+	// printf("\n%u, %u\n",get_rgba(255, 255, 255, 255), (RGB_MAX << 8) | 255);
 	while (iter.x < ((long double)img->width - 1))
 	{
 		c.real = fractal.top_left.x + steps.x * (long double)iter.x;
 		while (iter.y < ((long double)img->height - 1))
 		{
 			c.imaginary = fractal.top_left.y - steps.y * (long double)iter.y;
-			if (mandelbrot(c) == 0)
-				mlx_put_pixel(img, iter.x, iter.y, 255);
+			iterations = mandelbrot(c);
+			mlx_put_pixel(img, iter.x, iter.y, ft_sinus_colors(iterations));
 			iter.y++;
 		}
 	iter.x++;
@@ -122,10 +153,7 @@ void 		ft_zoom(t_vector zoom_point, mlx_image_t *img, int direction)
 		ft_initialize_mandelbrot(&zoomed_fractal);
 	zoom_point.x = (zoomed_fractal.top_left.x)+(zoom_point.x)/(img->width)*(zoomed_fractal.top_right.x - zoomed_fractal.top_left.x);
 	zoom_point.y = (zoomed_fractal.top_left.y)-(zoom_point.y)/(img->height)*(zoomed_fractal.top_left.y - zoomed_fractal.bottom_left.y);;
-	// printf("\nx: %Lf, y: %Lf\n", zoom_point.x, zoom_point.y);
-	// printf("\nzoomed_fractal.top_left.x: %Lf, zoomed_fractal.top_left.y: %Lf\n", zoomed_fractal.top_left.x, zoomed_fractal.top_left.y);
 	zoomed_fractal = ft_get_zoomed_fractal(zoomed_fractal, zoom_point, direction);
-	// printf("\nzoomed_fractal.top_left.x: %Lf, zoomed_fractal.top_left.y: %Lf\n", zoomed_fractal.top_left.x, zoomed_fractal.top_left.y);
 	ft_draw_fractal(img, zoomed_fractal);
 }
 
@@ -136,22 +164,14 @@ void	my_scrollhook(double xdelta, double ydelta, void* param)
 	int32_t			y;
 	t_scroll_hook_param *scroll_hook_param;
 
-	x = 0;
-	y = 0;
 	scroll_hook_param = param;
 	mlx_get_mouse_pos(scroll_hook_param->mlx, &x, &y);
 	zoom_point.x = (long double)x;
 	zoom_point.y = (long double)y;
 	if (ydelta > 0)
-	{
 		ft_zoom(zoom_point, scroll_hook_param->img, 1);
-		// puts("Up!");
-	}
 	else if (ydelta < 0)
-	{
 		ft_zoom(zoom_point, scroll_hook_param->img, -1);
-		// puts("Down!");
-	}
 }
 
 int32_t	main(void)

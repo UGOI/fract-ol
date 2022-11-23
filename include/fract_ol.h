@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/22 02:38:40 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/23 18:50:38 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include "MLX42/MLX42.h"
+# define ITER 50
+# define RGB_MAX 16777215
 
 typedef struct s_complex
 {
@@ -28,6 +30,12 @@ typedef struct s_vector
 	long double	x;
 	long double	y;
 }	t_vector;
+
+typedef struct s_monitor_size
+{
+	int32_t	x;
+	int32_t	y;
+}	t_monitor_size;
 
 typedef struct s_fractal
 {
@@ -50,6 +58,13 @@ typedef struct s_scroll_hook_param
 	mlx_t			*mlx;
 }	t_scroll_hook_param;
 
+// typedef struct s_rgba
+// {
+// 	int	r;
+// 	int	g;
+// 	int	b;
+// 	int	a;
+// }	t_rgba;
 
 t_complex	*ft_add_complex(t_complex *c1, t_complex *c2, t_complex *res);
 
