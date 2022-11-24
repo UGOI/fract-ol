@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 04:57:34 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 11:03:46 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ int			mandelbrot(t_complex c);
 
 int			julia(t_complex z, t_complex c);
 
-int			nova(t_complex c);
-
 int			eye(t_complex c);
 
 int			mandelbrot3(t_complex c);
@@ -95,14 +93,11 @@ int			ft_sinus_colors(int iterations);
 
 int			ft_ordered_linear_colors(int iterations);
 
-//Fractal Utils
-void		ft_draw_fractal(mlx_image_t *img, t_fractal fractal);
+//Fractal Init
 
 void		ft_initialize_mandelbrot(t_fractal *fractal);
 
 void		ft_initialize_julia(t_fractal *fractal, t_complex constant);
-
-void		ft_initialize_nova(t_fractal *mandelbrot);
 
 void		ft_initialize_eye(t_fractal *mandelbrot);
 
@@ -112,6 +107,11 @@ void		ft_initialize_mandelbrot4(t_fractal *fractal);
 
 int			ft_fractal_initialized(t_fractal fractal);
 
+//Fractal Init utils
+
+void		ft_initialize_fractal(t_fractal *fractal, char *name, t_complex c);
+
+void		ft_initialize_fractal(t_fractal *fractal, char *name, t_complex c);
 
 //Zoom
 long double	ft_get_zoom_point_comp(long double zoom_point_comp, long double d_comp, int direction);
@@ -119,5 +119,14 @@ long double	ft_get_zoom_point_comp(long double zoom_point_comp, long double d_co
 t_fractal	ft_get_zoomed_fractal(t_fractal fractal, t_vector zoom_point, int direction);
 
 void 		ft_zoom(t_vector zoom_point, mlx_image_t *img, int direction, t_fractal fractal);
+
+//Draw Fractal
+void		ft_erase_img_content(mlx_image_t *img);
+
+t_vector	ft_get_fractal_dimensions(t_fractal fractal);
+
+t_vector	ft_get_steps(t_vector dim, mlx_image_t *img);
+
+void		ft_draw_fractal(mlx_image_t *img, t_fractal fractal);
 
 #endif

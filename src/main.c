@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 04:57:07 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 11:05:04 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,91 +27,42 @@ static void	error(void)
 	exit(EXIT_FAILURE);
 }
 
-void	ft_erase_img_content(mlx_image_t *img)
-{
-	memset(img->pixels, 255, img->width * img->height * sizeof(int32_t));
-}
-
-void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
-{
-	t_vector	function_dimensions;
-	t_vector	iter;
-	t_complex	c;
-	t_vector	steps;
-	int			iterations;
-
-	ft_erase_img_content(img);
-	function_dimensions.x = fractal.top_right.x - fractal.top_left.x;
-	function_dimensions.y = fractal.top_left.y - fractal.bottom_left.y;
-	steps.x = function_dimensions.x / (long double)img->width;
-	steps.y = function_dimensions.y / (long double)img->height;
-	while (iter.x < ((long double)img->width - 1))
-	{
-		c.real = fractal.top_left.x + steps.x * (long double)iter.x;
-		while (iter.y < ((long double)img->height - 1))
-		{
-			c.imaginary = fractal.top_left.y - steps.y * (long double)iter.y;
-			if (!strcmp(fractal.name, "julia"))
-				iterations = fractal.func2(c, fractal.constant);
-			else
-				iterations = fractal.func(c);
-			mlx_put_pixel(img, iter.x, iter.y, ft_sinus_colors(iterations));
-			iter.y++;
-		}
-	iter.x++;
-	iter.y = 0;
-	}
-}
-
-void	my_scrollhook(double xdelta, double ydelta, void* param)
+void	my_scrollhook(double xdelta, double ydelta, void *param)
 {
 	t_vector			zoom_point;
 	int32_t				x;
 	int32_t				y;
-	t_scroll_hook_param *scroll_hook_param;
+	t_scroll_hook_param	*shp;
 
-	scroll_hook_param = param;
-	mlx_get_mouse_pos(scroll_hook_param->mlx, &x, &y);
+	shp = param;
+	mlx_get_mouse_pos(shp->mlx, &x, &y);
 	zoom_point.x = (long double)x;
 	zoom_point.y = (long double)y;
 	if (ydelta > 0)
-		ft_zoom(zoom_point, scroll_hook_param->img, 1, scroll_hook_param->fractal);
+		ft_zoom(zoom_point, shp->img, 1, shp->fractal);
 	else if (ydelta < 0)
-		ft_zoom(zoom_point, scroll_hook_param->img, -1, scroll_hook_param->fractal);
+		ft_zoom(zoom_point, shp->img, -1, shp->fractal);
 }
 
-
-
-
-int32_t	main(int argc, char* argv[])
+int32_t	main(int argc, char *argv[])
 {
-	t_scroll_hook_param	scroll_hook_param;
+	t_scroll_hook_param	shp;
 
-	if (!strcmp(argv[1], "julia"))
-		ft_initialize_julia(&(scroll_hook_param.fractal), (t_complex){(long double)atof(argv[2]), (long double)atof(argv[3])});
-	else if (!strcmp(argv[1], "nova"))
-		ft_initialize_nova(&(scroll_hook_param.fractal));
-	else if (!strcmp(argv[1], "eye"))
-		ft_initialize_eye(&(scroll_hook_param.fractal));
-	else if (!strcmp(argv[1], "mandelbrot3"))
-		ft_initialize_mandelbrot3(&(scroll_hook_param.fractal));
-	else if (!strcmp(argv[1], "mandelbrot4"))
-		ft_initialize_mandelbrot4(&(scroll_hook_param.fractal));
-	else
-		ft_initialize_mandelbrot(&(scroll_hook_param.fractal));
-	scroll_hook_param.mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
-	if (!scroll_hook_param.mlx)
+	ft_initialize_fractal(&(shp.fractal), argv[1],
+		(t_complex){(long double)atof(argv[2]), (long double)atof(argv[3])});
+	shp.mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
+	if (!shp.mlx)
 		error();
-	scroll_hook_param.img = mlx_new_image(scroll_hook_param.mlx, 500, 500);
-	if (!scroll_hook_param.img)
+	shp.img = mlx_new_image(shp.mlx, 500, 500);
+	if (!shp.img)
 		error();
-	mlx_scroll_hook(scroll_hook_param.mlx, &my_scrollhook, &scroll_hook_param);
-	ft_draw_fractal(scroll_hook_param.img, (scroll_hook_param.fractal));
-	if (mlx_image_to_window(scroll_hook_param.mlx, scroll_hook_param.img, 0, 0) < 0)
+	mlx_scroll_hook(shp.mlx, &my_scrollhook, &shp);
+	ft_draw_fractal(shp.img, (shp.fractal));
+	if (mlx_image_to_window(shp.mlx, shp.img, 0, 0) < 0)
 		error();
-	mlx_loop(scroll_hook_param.mlx);
-	mlx_delete_image(scroll_hook_param.mlx, scroll_hook_param.img);
-	mlx_terminate(scroll_hook_param.mlx);
+	mlx_loop(shp.mlx);
+	mlx_delete_image(shp.mlx, shp.img);
+	mlx_terminate(shp.mlx);
 	return (EXIT_SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 19:18:44 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 04:59:27 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 11:05:24 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	ft_zoom(t_vector zoom_point
 
 	if (!ft_fractal_initialized(zoomed_fractal))
 		zoomed_fractal = fractal;
-
 	zoom_point.x = (zoomed_fractal.top_left.x) + (zoom_point.x)
 		/ (img->width) * (zoomed_fractal.top_right.x
 			- zoomed_fractal.top_left.x);
