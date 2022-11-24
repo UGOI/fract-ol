@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 11:05:04 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 11:55:25 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 #include <memory.h>
 #include "MLX42/MLX42.h"
 #include "../include/fract_ol.h"
-#define WIDTH 5120
-#define HEIGHT 2880
+#define WIDTH 500
+#define HEIGHT 500
 
 static void	error(void)
 {
@@ -44,12 +44,30 @@ void	my_scrollhook(double xdelta, double ydelta, void *param)
 		ft_zoom(zoom_point, shp->img, -1, shp->fractal);
 }
 
+int	check_main_param(int argc, char *argv[])
+{
+	int	correct;
+
+	correct = (argc != 3 && argc <= 4 && (!strcmp(argv[1], "mandelbrot")
+				|| !strcmp(argv[1], "julia") || !strcmp(argv[1], "mandelbrot3")
+				|| !strcmp(argv[1], "mandelbrot4")));
+	if (!correct)
+		printf("Usage: ./fract_ol <name> <num> <num>\n");
+	return (correct);
+}
+
 int32_t	main(int argc, char *argv[])
 {
 	t_scroll_hook_param	shp;
+	t_complex			c;
 
-	ft_initialize_fractal(&(shp.fractal), argv[1],
-		(t_complex){(long double)atof(argv[2]), (long double)atof(argv[3])});
+	if (!check_main_param(argc, argv))
+		return (0);
+	if (argc == 2)
+		c = (t_complex){0.0, 0.0};
+	else
+		c = (t_complex){(long double)atof(argv[2]), (long double)atof(argv[3])};
+	ft_initialize_fractal(&(shp.fractal), argv[1], c);
 	shp.mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	if (!shp.mlx)
 		error();
