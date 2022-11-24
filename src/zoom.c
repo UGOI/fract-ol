@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 19:18:44 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/23 22:15:14 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 04:59:27 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ long double	ft_get_zoom_point_comp(long double zoom_point_comp
 	long double		res;
 	long double		base;
 
-	base = 0.95;
+	base = 0.7;
 	if (direction < 0)
 		base = 1 / base;
 	res = zoom_point_comp + d_comp * base;

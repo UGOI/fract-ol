@@ -6,11 +6,9 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/23 22:34:25 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 04:57:07 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// Written by Bruh
 
 #include <stdlib.h>
 #include <limits.h>
@@ -47,14 +45,16 @@ void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 	function_dimensions.y = fractal.top_left.y - fractal.bottom_left.y;
 	steps.x = function_dimensions.x / (long double)img->width;
 	steps.y = function_dimensions.y / (long double)img->height;
-	// printf("\n%u, %u\n",get_rgba(255, 255, 255, 255), (RGB_MAX << 8) | 255);
 	while (iter.x < ((long double)img->width - 1))
 	{
 		c.real = fractal.top_left.x + steps.x * (long double)iter.x;
 		while (iter.y < ((long double)img->height - 1))
 		{
 			c.imaginary = fractal.top_left.y - steps.y * (long double)iter.y;
-			iterations = mandelbrot_eq(c, fractal.julia, fractal.constant);
+			if (!strcmp(fractal.name, "julia"))
+				iterations = fractal.func2(c, fractal.constant);
+			else
+				iterations = fractal.func(c);
 			mlx_put_pixel(img, iter.x, iter.y, ft_sinus_colors(iterations));
 			iter.y++;
 		}
@@ -65,9 +65,9 @@ void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 
 void	my_scrollhook(double xdelta, double ydelta, void* param)
 {
-	t_vector		zoom_point;
-	int32_t			x;
-	int32_t			y;
+	t_vector			zoom_point;
+	int32_t				x;
+	int32_t				y;
 	t_scroll_hook_param *scroll_hook_param;
 
 	scroll_hook_param = param;
@@ -80,23 +80,25 @@ void	my_scrollhook(double xdelta, double ydelta, void* param)
 		ft_zoom(zoom_point, scroll_hook_param->img, -1, scroll_hook_param->fractal);
 }
 
+
+
+
 int32_t	main(int argc, char* argv[])
 {
-	t_fractal			fractal;
-	t_scroll_hook_param scroll_hook_param;
+	t_scroll_hook_param	scroll_hook_param;
 
 	if (!strcmp(argv[1], "julia"))
-	{
-		ft_initialize_julia(&fractal);
-		fractal.constant.real = (long double)atof(argv[2]) ;
-		fractal.constant.imaginary = (long double)atof(argv[3]);
-		scroll_hook_param.fractal = fractal;
-	}
+		ft_initialize_julia(&(scroll_hook_param.fractal), (t_complex){(long double)atof(argv[2]), (long double)atof(argv[3])});
+	else if (!strcmp(argv[1], "nova"))
+		ft_initialize_nova(&(scroll_hook_param.fractal));
+	else if (!strcmp(argv[1], "eye"))
+		ft_initialize_eye(&(scroll_hook_param.fractal));
+	else if (!strcmp(argv[1], "mandelbrot3"))
+		ft_initialize_mandelbrot3(&(scroll_hook_param.fractal));
+	else if (!strcmp(argv[1], "mandelbrot4"))
+		ft_initialize_mandelbrot4(&(scroll_hook_param.fractal));
 	else
-	{
-		ft_initialize_mandelbrot(&fractal);
-		scroll_hook_param.fractal = fractal;
-	}
+		ft_initialize_mandelbrot(&(scroll_hook_param.fractal));
 	scroll_hook_param.mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	if (!scroll_hook_param.mlx)
 		error();
@@ -104,7 +106,7 @@ int32_t	main(int argc, char* argv[])
 	if (!scroll_hook_param.img)
 		error();
 	mlx_scroll_hook(scroll_hook_param.mlx, &my_scrollhook, &scroll_hook_param);
-	ft_draw_fractal(scroll_hook_param.img, fractal);
+	ft_draw_fractal(scroll_hook_param.img, (scroll_hook_param.fractal));
 	if (mlx_image_to_window(scroll_hook_param.mlx, scroll_hook_param.img, 0, 0) < 0)
 		error();
 	mlx_loop(scroll_hook_param.mlx);
@@ -112,3 +114,14 @@ int32_t	main(int argc, char* argv[])
 	mlx_terminate(scroll_hook_param.mlx);
 	return (EXIT_SUCCESS);
 }
+
+// int32_t	main(void)
+// {
+// 	t_complex c1 = {2, 6};
+// 	t_complex c2 = {-2, 9};
+// 	t_complex res;
+
+// 	res = ft_divide_complex(c1, c2);
+
+// 	printf("%Lf %+Lfi\n", res.real, res.imaginary);
+// }

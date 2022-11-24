@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/23 22:01:37 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 04:57:34 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ typedef struct s_fractal
 	t_vector	top_right;
 	t_vector	bottom_left;
 	int			julia;
+	char		*name;
 	t_complex	constant;
+	int			(*func)(t_complex);
+	int			(*func2)(t_complex, t_complex);
 }	t_fractal;
 
 typedef struct s_point_distances
@@ -61,19 +64,29 @@ typedef struct s_scroll_hook_param
 	t_fractal		fractal;
 }	t_scroll_hook_param;
 
-t_complex	*ft_add_complex(t_complex *c1, t_complex *c2, t_complex *res);
+t_complex	ft_add_complex(t_complex c1, t_complex c2);
 
-t_complex	*ft_subtract_complex(t_complex *c1, t_complex *c2, t_complex *res);
+t_complex	ft_subtract_complex(t_complex c1, t_complex c2);
 
-t_complex	*ft_multiply_complex(t_complex *c1, t_complex *c2, t_complex *res);
+t_complex	ft_multiply_complex(t_complex c1, t_complex c2);
 
-t_complex	*ft_divide_complex(t_complex *c1, t_complex *c2, t_complex *res);
+t_complex	ft_power_complex(t_complex c1, long double pow);
+
+t_complex	ft_divide_complex(t_complex c1, t_complex c2);
 
 long double	ft_squared_absolute_complex(t_complex c);
 
-int			mandelbrot_eq(t_complex c, int julia, t_complex constant);
+int			mandelbrot(t_complex c);
 
-// int			julia(t_complex z);
+int			julia(t_complex z, t_complex c);
+
+int			nova(t_complex c);
+
+int			eye(t_complex c);
+
+int			mandelbrot3(t_complex c);
+
+int			mandelbrot4(t_complex c);
 
 //Colors
 int			get_rgba(int r, int g, int b, int a);
@@ -83,11 +96,19 @@ int			ft_sinus_colors(int iterations);
 int			ft_ordered_linear_colors(int iterations);
 
 //Fractal Utils
-void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal);
+void		ft_draw_fractal(mlx_image_t *img, t_fractal fractal);
 
-void		ft_initialize_mandelbrot(t_fractal *mandelbrot);
+void		ft_initialize_mandelbrot(t_fractal *fractal);
 
-void		ft_initialize_julia(t_fractal *julia);
+void		ft_initialize_julia(t_fractal *fractal, t_complex constant);
+
+void		ft_initialize_nova(t_fractal *mandelbrot);
+
+void		ft_initialize_eye(t_fractal *mandelbrot);
+
+void		ft_initialize_mandelbrot3(t_fractal *fractal);
+
+void		ft_initialize_mandelbrot4(t_fractal *fractal);
 
 int			ft_fractal_initialized(t_fractal fractal);
 

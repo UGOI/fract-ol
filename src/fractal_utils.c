@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 19:29:30 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/23 21:45:48 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 04:56:11 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,36 @@ int	ft_fractal_initialized(t_fractal fractal)
 	);
 }
 
-void	ft_initialize_mandelbrot(t_fractal *mandelbrot)
+void	ft_initialize_mandelbrot(t_fractal *fractal)
+{
+	fractal->top_left.x = -2.5;
+	fractal->top_left.y = 2;
+	fractal->top_right.x = 1.5;
+	fractal->top_right.y = 2;
+	fractal->bottom_left.x = -2.5;
+	fractal->bottom_left.y = -2;
+	fractal->julia = 0;
+	fractal->constant.real = 0;
+	fractal->constant.imaginary = 0;
+	fractal->name = "mandelbrot";
+	fractal->func = &mandelbrot;
+}
+
+void	ft_initialize_julia(t_fractal *fractal, t_complex constant)
+{
+	fractal->top_left.x = -2.5;
+	fractal->top_left.y = 2;
+	fractal->top_right.x = 1.5;
+	fractal->top_right.y = 2;
+	fractal->bottom_left.x = -2.5;
+	fractal->bottom_left.y = -2;
+	fractal->julia = 1;
+	fractal->constant = constant;
+	fractal->name = "julia";
+	fractal->func2 = &julia;
+}
+
+void	ft_initialize_nova(t_fractal *mandelbrot)
 {
 	mandelbrot->top_left.x = -2.5;
 	mandelbrot->top_left.y = 2;
@@ -34,17 +63,51 @@ void	ft_initialize_mandelbrot(t_fractal *mandelbrot)
 	mandelbrot->julia = 0;
 	mandelbrot->constant.real = 0;
 	mandelbrot->constant.imaginary = 0;
+	mandelbrot->name = "nova";
+	mandelbrot->func = &nova;
 }
 
-void	ft_initialize_julia(t_fractal *julia)
+void	ft_initialize_eye(t_fractal *mandelbrot)
 {
-	julia->top_left.x = -2.5;
-	julia->top_left.y = 2;
-	julia->top_right.x = 1.5;
-	julia->top_right.y = 2;
-	julia->bottom_left.x = -2.5;
-	julia->bottom_left.y = -2;
-	julia->julia = 1;
-	julia->constant.real = 0;
-	julia->constant.imaginary = 0;
+	mandelbrot->top_left.x = -2.5;
+	mandelbrot->top_left.y = 2;
+	mandelbrot->top_right.x = 1.5;
+	mandelbrot->top_right.y = 2;
+	mandelbrot->bottom_left.x = -2.5;
+	mandelbrot->bottom_left.y = -2;
+	mandelbrot->julia = 0;
+	mandelbrot->constant.real = 0;
+	mandelbrot->constant.imaginary = 0;
+	mandelbrot->name = "eye";
+	mandelbrot->func = &eye;
+}
+
+void	ft_initialize_mandelbrot3(t_fractal *fractal)
+{
+	fractal->top_left.x = -2.5;
+	fractal->top_left.y = 2;
+	fractal->top_right.x = 1.5;
+	fractal->top_right.y = 2;
+	fractal->bottom_left.x = -2.5;
+	fractal->bottom_left.y = -2;
+	fractal->julia = 0;
+	fractal->constant.real = 0;
+	fractal->constant.imaginary = 0;
+	fractal->name = "mandelbrot3";
+	fractal->func = &mandelbrot3;
+}
+
+void	ft_initialize_mandelbrot4(t_fractal *fractal)
+{
+	fractal->top_left.x = -2.5;
+	fractal->top_left.y = 2;
+	fractal->top_right.x = 1.5;
+	fractal->top_right.y = 2;
+	fractal->bottom_left.x = -2.5;
+	fractal->bottom_left.y = -2;
+	fractal->julia = 0;
+	fractal->constant.real = 0;
+	fractal->constant.imaginary = 0;
+	fractal->name = "mandelbrot4";
+	fractal->func = &mandelbrot4;
 }
