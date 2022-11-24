@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 16:41:38 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 20:44:10 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ long double	ft_get_zoom_point_comp(long double zoom_point_comp, long double d_co
 
 t_fractal	ft_get_zoomed_fractal(t_fractal fractal, t_vector zoom_point, int direction);
 
-void 		ft_zoom(t_vector zoom_point, mlx_image_t *img, int direction, t_fractal fractal);
+void		ft_zoom(t_vector zoom_point_screen, int direction, t_scroll_hook_param *shp);
 
 //Draw Fractal
 void		ft_erase_img_content(mlx_image_t *img);

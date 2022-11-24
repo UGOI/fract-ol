@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 18:59:35 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 20:52:02 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ void	my_scrollhook(double xdelta, double ydelta, void *param)
 	zoom_point.x = (long double)x;
 	zoom_point.y = (long double)y;
 	if (ydelta > 0)
-		ft_zoom(zoom_point, shp->img, 1, shp->fractal);
+		ft_zoom(zoom_point, 1, shp);
 	else if (ydelta < 0)
-		ft_zoom(zoom_point, shp->img, -1, shp->fractal);
+		ft_zoom(zoom_point, -1, shp);
 }
 
-void	my_resizehook(int32_t width, int32_t height, void* param)
+void	my_resizehook(int32_t width, int32_t height, void *param)
 {
 	t_scroll_hook_param	*shp;
 	t_monitor_size		m_size;
@@ -53,12 +53,14 @@ void	my_resizehook(int32_t width, int32_t height, void* param)
 	mlx_resize_image(shp->img, width, height);
 }
 
-void	my_keyhook(mlx_key_data_t keydata, void* param)
+void	my_keyhook(mlx_key_data_t keydata, void *param)
 {
 	t_scroll_hook_param	*shp;
 	t_monitor_size		m_size;
+	long double			translation;
 
 	shp = param;
+	translation = 0.1 * (shp->fractal.top_right.x - shp->fractal.top_left.x);
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		mlx_delete_image(shp->mlx, shp->img);
@@ -66,6 +68,35 @@ void	my_keyhook(mlx_key_data_t keydata, void* param)
 		printf("\nExited safely!!!\n");
 		exit(1);
 	}
+	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
+	{
+		shp->fractal.top_left.x += translation;
+		shp->fractal.top_right.x += translation;
+		shp->fractal.bottom_left.x += translation;
+		ft_draw_fractal(shp->img, shp->fractal);
+	}
+	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
+	{
+		shp->fractal.top_left.x -= translation;
+		shp->fractal.top_right.x -= translation;
+		shp->fractal.bottom_left.x -= translation;
+		ft_draw_fractal(shp->img, shp->fractal);
+	}
+	else if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
+	{
+		shp->fractal.top_left.y -= translation;
+		shp->fractal.top_right.y -= translation;
+		shp->fractal.bottom_left.y -= translation;
+		ft_draw_fractal(shp->img, shp->fractal);
+	}
+	else if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
+	{
+		shp->fractal.top_left.y += translation;
+		shp->fractal.top_right.y += translation;
+		shp->fractal.bottom_left.y += translation;
+		ft_draw_fractal(shp->img, shp->fractal);
+	}
+
 }
 
 int	check_main_param(int argc, char *argv[])
@@ -99,8 +130,8 @@ int32_t	main(int argc, char *argv[])
 	if (!shp.img)
 		error();
 	// mlx_resize_hook(shp.mlx, &my_resizehook, &shp);
-	mlx_key_hook(shp.mlx, &my_keyhook, &shp);
 	mlx_scroll_hook(shp.mlx, &my_scrollhook, &shp);
+	mlx_key_hook(shp.mlx, &my_keyhook, &shp);
 	ft_draw_fractal(shp.img, (shp.fractal));
 	if (mlx_image_to_window(shp.mlx, shp.img, 0, 0) < 0)
 		error();
