@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 20:52:02 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 21:55:44 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,15 @@ void	my_resizehook(int32_t width, int32_t height, void *param)
 	mlx_resize_image(shp->img, width, height);
 }
 
+void	translate_fractal_horizontal(t_scroll_hook_param *shp, long double translation)
+{
+	shp->fractal.top_left.x += translation;
+	shp->fractal.top_right.x += translation;
+	shp->fractal.bottom_left.x += translation;
+	ft_draw_fractal(shp->img, shp->fractal);
+	return ;
+}
+
 void	my_keyhook(mlx_key_data_t keydata, void *param)
 {
 	t_scroll_hook_param	*shp;
@@ -70,10 +79,12 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	}
 	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
 	{
-		shp->fractal.top_left.x += translation;
-		shp->fractal.top_right.x += translation;
-		shp->fractal.bottom_left.x += translation;
-		ft_draw_fractal(shp->img, shp->fractal);
+		// shp->fractal.top_left.x += translation;
+		// shp->fractal.top_right.x += translation;
+		// shp->fractal.bottom_left.x += translation;
+		// ft_draw_fractal(shp->img, shp->fractal);
+		translate_fractal_horizontal(shp, translation);
+
 	}
 	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
 	{
@@ -96,7 +107,16 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 		shp->fractal.bottom_left.y += translation;
 		ft_draw_fractal(shp->img, shp->fractal);
 	}
-
+	else if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
+	{
+		shp->fractal.col_shift -= 0.1f;
+		ft_draw_fractal(shp->img, shp->fractal);
+	}
+	else if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
+	{
+		shp->fractal.col_shift += 0.1f;
+		ft_draw_fractal(shp->img, shp->fractal);
+	}
 }
 
 int	check_main_param(int argc, char *argv[])

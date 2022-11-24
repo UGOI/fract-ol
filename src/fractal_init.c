@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 19:29:30 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 10:42:37 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 21:57:32 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_initialize_mandelbrot(t_fractal *fractal)
 	fractal->julia = 0;
 	fractal->constant.real = 0;
 	fractal->constant.imaginary = 0;
+	fractal->col_shift = 0.0f;
 	fractal->name = "mandelbrot";
 	fractal->func = &mandelbrot;
 }
@@ -40,6 +41,7 @@ void	ft_initialize_julia(t_fractal *fractal, t_complex constant)
 	fractal->bottom_left.y = -2;
 	fractal->julia = 1;
 	fractal->constant = constant;
+	fractal->col_shift = 0.0f;
 	fractal->name = "julia";
 	fractal->func2 = &julia;
 }
@@ -70,6 +72,7 @@ void	ft_initialize_mandelbrot3(t_fractal *fractal)
 	fractal->julia = 0;
 	fractal->constant.real = 0;
 	fractal->constant.imaginary = 0;
+	fractal->col_shift = 0.0f;
 	fractal->name = "mandelbrot3";
 	fractal->func = &mandelbrot3;
 }
@@ -85,6 +88,7 @@ void	ft_initialize_mandelbrot4(t_fractal *fractal)
 	fractal->julia = 0;
 	fractal->constant.real = 0;
 	fractal->constant.imaginary = 0;
+	fractal->col_shift = 0.0f;
 	fractal->name = "mandelbrot4";
 	fractal->func = &mandelbrot4;
 }

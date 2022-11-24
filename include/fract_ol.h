@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 20:44:10 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 21:53:33 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_fractal
 	t_complex	constant;
 	int			(*func)(t_complex);
 	int			(*func2)(t_complex, t_complex);
+	float		col_shift;
 }	t_fractal;
 
 typedef struct s_point_distances
@@ -89,7 +90,7 @@ int			mandelbrot4(t_complex c);
 //Colors
 int			get_rgba(int r, int g, int b, int a);
 
-int			ft_sinus_colors(int iterations);
+int			ft_sinus_colors(int iterations, float shift);
 
 int			ft_ordered_linear_colors(int iterations);
 

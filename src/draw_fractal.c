@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 20:27:23 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 21:54:17 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 				iterations = fractal.func2(c, fractal.constant);
 			else
 				iterations = fractal.func(c);
-			mlx_put_pixel(img, iter.x, iter.y, ft_sinus_colors(iterations));
+			mlx_put_pixel(img, iter.x, iter.y,
+				ft_sinus_colors(iterations, fractal.col_shift));
 			iter.y++;
 		}
 	iter.x++;
@@ -104,7 +105,8 @@ void	ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_monitor_size m_size
 				iterations = fractal.func2(c, fractal.constant);
 			else
 				iterations = fractal.func(c);
-			mlx_put_pixel(img, iter.x, iter.y, ft_sinus_colors(iterations));
+			mlx_put_pixel(img, iter.x, iter.y,
+				ft_sinus_colors(iterations, fractal.col_shift));
 			iter.y++;
 		}
 	iter.x++;
