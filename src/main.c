@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 11:55:25 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 18:59:35 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,30 @@ void	my_scrollhook(double xdelta, double ydelta, void *param)
 		ft_zoom(zoom_point, shp->img, -1, shp->fractal);
 }
 
+void	my_resizehook(int32_t width, int32_t height, void* param)
+{
+	t_scroll_hook_param	*shp;
+	t_monitor_size		m_size;
+
+	shp = param;
+	mlx_resize_image(shp->img, width, height);
+}
+
+void	my_keyhook(mlx_key_data_t keydata, void* param)
+{
+	t_scroll_hook_param	*shp;
+	t_monitor_size		m_size;
+
+	shp = param;
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	{
+		mlx_delete_image(shp->mlx, shp->img);
+		mlx_terminate(shp->mlx);
+		printf("\nExited safely!!!\n");
+		exit(1);
+	}
+}
+
 int	check_main_param(int argc, char *argv[])
 {
 	int	correct;
@@ -71,9 +95,11 @@ int32_t	main(int argc, char *argv[])
 	shp.mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	if (!shp.mlx)
 		error();
-	shp.img = mlx_new_image(shp.mlx, 500, 500);
+	shp.img = mlx_new_image(shp.mlx, WIDTH, HEIGHT);
 	if (!shp.img)
 		error();
+	// mlx_resize_hook(shp.mlx, &my_resizehook, &shp);
+	mlx_key_hook(shp.mlx, &my_keyhook, &shp);
 	mlx_scroll_hook(shp.mlx, &my_scrollhook, &shp);
 	ft_draw_fractal(shp.img, (shp.fractal));
 	if (mlx_image_to_window(shp.mlx, shp.img, 0, 0) < 0)

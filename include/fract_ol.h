@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 11:03:46 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 16:41:38 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,7 @@ t_vector	ft_get_fractal_dimensions(t_fractal fractal);
 t_vector	ft_get_steps(t_vector dim, mlx_image_t *img);
 
 void		ft_draw_fractal(mlx_image_t *img, t_fractal fractal);
+
+void		ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_monitor_size m_size);
 
 #endif

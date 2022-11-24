@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 19:18:44 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 11:05:24 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/24 18:32:39 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,20 @@ t_fractal	ft_get_zoomed_fractal(t_fractal fractal
 	return (fractal);
 }
 
+
+t_vector	transform_zoom(t_fractal zoomed_fractal, mlx_image_t *img)
+{
+	t_vector	zoom_point;
+
+	zoom_point.x = (zoomed_fractal.top_left.x) + (zoom_point.x)
+		/ (img->width) * (zoomed_fractal.top_right.x
+			- zoomed_fractal.top_left.x);
+	zoom_point.y = (zoomed_fractal.top_left.y) - (zoom_point.y)
+		/ (img->height) * (zoomed_fractal.top_left.y
+			- zoomed_fractal.bottom_left.y);
+	return (zoom_point);
+}
+
 void	ft_zoom(t_vector zoom_point
 , mlx_image_t *img, int direction, t_fractal fractal)
 {
@@ -55,12 +69,15 @@ void	ft_zoom(t_vector zoom_point
 
 	if (!ft_fractal_initialized(zoomed_fractal))
 		zoomed_fractal = fractal;
+	// zoom_point = transform_zoom(zoomed_fractal, img);
 	zoom_point.x = (zoomed_fractal.top_left.x) + (zoom_point.x)
 		/ (img->width) * (zoomed_fractal.top_right.x
 			- zoomed_fractal.top_left.x);
 	zoom_point.y = (zoomed_fractal.top_left.y) - (zoom_point.y)
 		/ (img->height) * (zoomed_fractal.top_left.y
 			- zoomed_fractal.bottom_left.y);
+
+	printf("%Lf, %Lf\n", zoom_point.x, zoom_point.y);
 	zoomed_fractal = ft_get_zoomed_fractal(zoomed_fractal,
 			zoom_point, direction);
 	ft_draw_fractal(img, zoomed_fractal);
