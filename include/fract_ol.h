@@ -6,14 +6,12 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/25 16:51:31 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/25 16:54:44 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACT_OL_H
 # define FRACT_OL_H
-# include <unistd.h>
-# include <stdio.h>
 # include "MLX42/MLX42.h"
 # define ITER 50
 # define RGB_MAX 16777215
