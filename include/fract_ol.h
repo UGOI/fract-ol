@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/25 16:54:44 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/25 22:10:21 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int			ft_sinus_colors(int iterations, float shift);
 
 int			ft_ordered_linear_colors(int iterations);
 
+void		shift_color(t_scroll_hook_param *shp, long double translation);
+
 //Fractal Init
 
 void		ft_initialize_mandelbrot(t_fractal *fractal);
@@ -128,5 +130,20 @@ t_vector	ft_get_steps(t_vector dim, mlx_image_t *img);
 void		ft_draw_fractal(mlx_image_t *img, t_fractal fractal);
 
 void		ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_monitor_size m_size);
+
+//Hooks
+void		my_scrollhook(double xdelta, double ydelta, void *param);
+
+void		my_resizehook(int32_t width, int32_t height, void *param);
+
+void		my_keyhook(mlx_key_data_t keydata, void *param);
+
+void		exit_safely(t_scroll_hook_param *shp);
+
+void	translate_fractal_horizontal(t_scroll_hook_param *shp,
+long double translation);
+
+void	translate_fractal_vertical(t_scroll_hook_param *shp,
+long double translation);
 
 #endif

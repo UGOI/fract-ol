@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/25 21:51:40 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/26 00:34:46 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,50 +29,6 @@ static void	error(void)
 	exit(EXIT_FAILURE);
 }
 
-void	my_scrollhook(double xdelta, double ydelta, void *param)
-{
-	t_vector			zoom_point;
-	int32_t				x;
-	int32_t				y;
-	t_scroll_hook_param	*shp;
-
-	shp = param;
-	mlx_get_mouse_pos(shp->mlx, &x, &y);
-	zoom_point.x = (long double)x;
-	zoom_point.y = (long double)y;
-	if (ydelta > 0)
-		ft_zoom(zoom_point, 1, shp);
-	else if (ydelta < 0)
-		ft_zoom(zoom_point, -1, shp);
-}
-
-void	my_resizehook(int32_t width, int32_t height, void *param)
-{
-	t_scroll_hook_param	*shp;
-	t_monitor_size		m_size;
-
-	shp = param;
-	mlx_resize_image(shp->img, width, height);
-}
-
-void	translate_fractal_horizontal(t_scroll_hook_param *shp, long double translation)
-{
-	shp->fractal.top_left.x += translation;
-	shp->fractal.top_right.x += translation;
-	shp->fractal.bottom_left.x += translation;
-	ft_draw_fractal(shp->img, shp->fractal);
-	return ;
-}
-
-void	translate_fractal_vertical(t_scroll_hook_param *shp, long double translation)
-{
-	shp->fractal.top_left.y += translation;
-	shp->fractal.top_right.y += translation;
-	shp->fractal.bottom_left.y += translation;
-	ft_draw_fractal(shp->img, shp->fractal);
-	return ;
-}
-
 void	exit_safely(t_scroll_hook_param *shp)
 {
 	mlx_delete_image(shp->mlx, shp->img);
@@ -82,57 +38,28 @@ void	exit_safely(t_scroll_hook_param *shp)
 	return ;
 }
 
-void	shift_color(t_scroll_hook_param *shp, long double translation)
-{
-	shp->fractal.col_shift += translation;
-	ft_draw_fractal(shp->img, shp->fractal);
-	return ;
-}
-
-void	my_keyhook(mlx_key_data_t keydata, void *param)
-{
-	t_scroll_hook_param	*shp;
-	t_monitor_size		m_size;
-	long double			translation;
-
-	shp = param;
-	translation = 0.1 * (shp->fractal.top_right.x - shp->fractal.top_left.x);
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		exit_safely(shp);
-	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
-		translate_fractal_horizontal(shp, translation);
-	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
-		translate_fractal_horizontal(shp, -translation);
-	else if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
-		translate_fractal_vertical(shp, -translation);
-	else if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
-		translate_fractal_vertical(shp, translation);
-	else if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
-		shift_color(shp, 0.1);
-	else if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
-		shift_color(shp, -0.1);
-}
-
 int	check_main_param(int argc, char *argv[])
 {
 	int	correct;
 
 	correct = (argc != 3 && argc <= 4 && (!ft_strcmp(argv[1], "mandelbrot")
-				|| !ft_strcmp(argv[1], "julia") || !ft_strcmp(argv[1], "mandelbrot3")
+				|| !ft_strcmp(argv[1], "julia")
+				|| !ft_strcmp(argv[1], "mandelbrot3")
 				|| !ft_strcmp(argv[1], "mandelbrot4")));
 	if (!correct)
 		ft_printf("Usage: ./fract_ol <name> <num> <num>\n");
 	return (correct);
 }
 
-t_complex get_c_from_args(int argc, char *argv[])
+t_complex	get_c_from_args(int argc, char *argv[])
 {
 	t_complex	c;
 
 	if (argc == 2)
 		c = (t_complex){-0.8, 0.156};
 	else
-		c = (t_complex){(long double)ft_atof(argv[2]), (long double)ft_atof(argv[3])};
+		c = (t_complex){(long double)ft_atof(argv[2]),
+			(long double)ft_atof(argv[3])};
 	return (c);
 }
 
@@ -149,7 +76,6 @@ int32_t	main(int argc, char *argv[])
 	shp.img = mlx_new_image(shp.mlx, WIDTH, HEIGHT);
 	if (!shp.img)
 		error();
-	// mlx_resize_hook(shp.mlx, &my_resizehook, &shp);
 	mlx_scroll_hook(shp.mlx, &my_scrollhook, &shp);
 	mlx_key_hook(shp.mlx, &my_keyhook, &shp);
 	ft_draw_fractal(shp.img, (shp.fractal));
@@ -160,14 +86,3 @@ int32_t	main(int argc, char *argv[])
 	mlx_terminate(shp.mlx);
 	return (EXIT_SUCCESS);
 }
-
-// int32_t	main(void)
-// {
-// 	t_complex c1 = {2, 6};
-// 	t_complex c2 = {-2, 9};
-// 	t_complex res;
-
-// 	res = ft_divide_complex(c1, c2);
-
-// 	ft_printf("%Lf %+Lfi\n", res.real, res.imaginary);
-// }

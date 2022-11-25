@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:02:47 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/25 16:46:38 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/25 22:03:18 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,11 @@ int	ft_ordered_linear_colors(int iterations)
 	{
 		return ((RGB_MAX * iterations / ITER << 8) | 255);
 	}
+}
+
+void	shift_color(t_scroll_hook_param *shp, long double translation)
+{
+	shp->fractal.col_shift += translation;
+	ft_draw_fractal(shp->img, shp->fractal);
+	return ;
 }
