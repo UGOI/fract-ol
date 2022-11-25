@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/25 17:55:53 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/25 18:46:23 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,18 +125,24 @@ int	check_main_param(int argc, char *argv[])
 	return (correct);
 }
 
+t_complex get_c_from_args(int argc, char *argv[])
+{
+	t_complex	c;
+
+	if (argc == 2)
+		c = (t_complex){-0.8, 0.156};
+	else
+		c = (t_complex){(long double)atof(argv[2]), (long double)atof(argv[3])};
+	return (c);
+}
+
 int32_t	main(int argc, char *argv[])
 {
 	t_scroll_hook_param	shp;
-	t_complex			c;
 
 	if (!check_main_param(argc, argv))
 		return (0);
-	if (argc == 2)
-		c = (t_complex){0.0, 0.0};
-	else
-		c = (t_complex){(long double)atof(argv[2]), (long double)atof(argv[3])};
-	ft_initialize_fractal(&(shp.fractal), argv[1], c);
+	ft_initialize_fractal(&(shp.fractal), argv[1], get_c_from_args(argc, argv));
 	shp.mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	if (!shp.mlx)
 		error();
