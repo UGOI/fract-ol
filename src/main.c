@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 21:55:44 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/25 16:37:58 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <memory.h>
 #include "MLX42/MLX42.h"
 #include "../include/fract_ol.h"
+#include "../lib/libft/libft.h"
+#include "../lib/libft/ft_printf.h"
 #define WIDTH 500
 #define HEIGHT 500
 
@@ -62,6 +64,31 @@ void	translate_fractal_horizontal(t_scroll_hook_param *shp, long double translat
 	return ;
 }
 
+void	translate_fractal_vertical(t_scroll_hook_param *shp, long double translation)
+{
+	shp->fractal.top_left.y += translation;
+	shp->fractal.top_right.y += translation;
+	shp->fractal.bottom_left.y += translation;
+	ft_draw_fractal(shp->img, shp->fractal);
+	return ;
+}
+
+void	exit_safely(t_scroll_hook_param *shp)
+{
+	mlx_delete_image(shp->mlx, shp->img);
+	mlx_terminate(shp->mlx);
+	ft_printf("\nExited safely!!!\n");
+	exit(1);
+	return ;
+}
+
+void	shift_color(t_scroll_hook_param *shp, long double translation)
+{
+	shp->fractal.col_shift += translation;
+	ft_draw_fractal(shp->img, shp->fractal);
+	return ;
+}
+
 void	my_keyhook(mlx_key_data_t keydata, void *param)
 {
 	t_scroll_hook_param	*shp;
@@ -71,52 +98,19 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	shp = param;
 	translation = 0.1 * (shp->fractal.top_right.x - shp->fractal.top_left.x);
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-	{
-		mlx_delete_image(shp->mlx, shp->img);
-		mlx_terminate(shp->mlx);
-		printf("\nExited safely!!!\n");
-		exit(1);
-	}
+		exit_safely(shp);
 	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
-	{
-		// shp->fractal.top_left.x += translation;
-		// shp->fractal.top_right.x += translation;
-		// shp->fractal.bottom_left.x += translation;
-		// ft_draw_fractal(shp->img, shp->fractal);
 		translate_fractal_horizontal(shp, translation);
-
-	}
 	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
-	{
-		shp->fractal.top_left.x -= translation;
-		shp->fractal.top_right.x -= translation;
-		shp->fractal.bottom_left.x -= translation;
-		ft_draw_fractal(shp->img, shp->fractal);
-	}
+		translate_fractal_horizontal(shp, -translation);
 	else if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
-	{
-		shp->fractal.top_left.y -= translation;
-		shp->fractal.top_right.y -= translation;
-		shp->fractal.bottom_left.y -= translation;
-		ft_draw_fractal(shp->img, shp->fractal);
-	}
+		translate_fractal_vertical(shp, -translation);
 	else if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
-	{
-		shp->fractal.top_left.y += translation;
-		shp->fractal.top_right.y += translation;
-		shp->fractal.bottom_left.y += translation;
-		ft_draw_fractal(shp->img, shp->fractal);
-	}
+		translate_fractal_vertical(shp, translation);
 	else if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
-	{
-		shp->fractal.col_shift -= 0.1f;
-		ft_draw_fractal(shp->img, shp->fractal);
-	}
+		shift_color(shp, 0.1);
 	else if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
-	{
-		shp->fractal.col_shift += 0.1f;
-		ft_draw_fractal(shp->img, shp->fractal);
-	}
+		shift_color(shp, -0.1);
 }
 
 int	check_main_param(int argc, char *argv[])
@@ -127,7 +121,7 @@ int	check_main_param(int argc, char *argv[])
 				|| !strcmp(argv[1], "julia") || !strcmp(argv[1], "mandelbrot3")
 				|| !strcmp(argv[1], "mandelbrot4")));
 	if (!correct)
-		printf("Usage: ./fract_ol <name> <num> <num>\n");
+		ft_printf("Usage: ./fract_ol <name> <num> <num>\n");
 	return (correct);
 }
 
@@ -169,5 +163,5 @@ int32_t	main(int argc, char *argv[])
 
 // 	res = ft_divide_complex(c1, c2);
 
-// 	printf("%Lf %+Lfi\n", res.real, res.imaginary);
+// 	ft_printf("%Lf %+Lfi\n", res.real, res.imaginary);
 // }

@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 21:54:17 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/25 16:42:10 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <memory.h>
 #include "MLX42/MLX42.h"
 #include "../include/fract_ol.h"
+#include "../lib/libft/ft_printf.h"
 #define WIDTH 5120
 #define HEIGHT 2880
 
@@ -122,5 +123,5 @@ void	ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_monitor_size m_size
 
 // 	res = ft_divide_complex(c1, c2);
 
-// 	printf("%Lf %+Lfi\n", res.real, res.imaginary);
+// 	ft_printf("%Lf %+Lfi\n", res.real, res.imaginary);
 // }

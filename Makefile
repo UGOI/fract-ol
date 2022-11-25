@@ -2,6 +2,7 @@ NAME	:= fract_ol
 CFLAGS	:= -g
 CFLAGS2	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g -fsanitize=address
 LIBMLX	:= ./lib/MLX42
+LIBFT	:= ./lib/libft
 BREW = $(shell which brew | rev | cut -c 9- | rev)
 VERSION = $(shell ls $(BREW)/Cellar/glfw/)
 
@@ -10,25 +11,30 @@ LIBS	:= $(LIBMLX)/libmlx42.a -lglfw -L $(BREW)/Cellar/glfw/$(VERSION)/lib/
 SRCS	:= $(shell find ./src -iname "*.c")
 OBJS	:= ${SRCS:.c=.o}
 
-all: libmlx $(NAME)
+all: libmlx libft $(NAME)
 
 libmlx:
 	@$(MAKE) -C $(LIBMLX)
+
+libft:
+	@$(MAKE) -C $(LIBFT)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) -L ${LIBFT} -lft
 
 clean:
 	@rm -f $(OBJS)
 	@$(MAKE) -C $(LIBMLX) clean
+	@$(MAKE) -C $(LIBFT) clean
 
 fclean: clean
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBMLX) fclean
+	@$(MAKE) -C $(LIBFT) fclean
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re, libmlx
+.PHONY: all, clean, fclean, re, libmlx, libft
