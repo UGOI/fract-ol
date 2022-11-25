@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/25 16:42:10 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/25 17:56:55 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "MLX42/MLX42.h"
 #include "../include/fract_ol.h"
 #include "../lib/libft/ft_printf.h"
+#include "../lib/libft/libft.h"
 #define WIDTH 5120
 #define HEIGHT 2880
 
@@ -72,7 +73,7 @@ void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 		while (iter.y < ((long double)img->height - 1))
 		{
 			c.imaginary = fractal.top_left.y - steps.y * (long double)iter.y;
-			if (!strcmp(fractal.name, "julia"))
+			if (!ft_strcmp(fractal.name, "julia"))
 				iterations = fractal.func2(c, fractal.constant);
 			else
 				iterations = fractal.func(c);
@@ -102,7 +103,7 @@ void	ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_monitor_size m_size
 		while (iter.y < ((long double)m_size.y - 1))
 		{
 			c.imaginary = fractal.top_left.y - steps.y * (long double)iter.y;
-			if (!strcmp(fractal.name, "julia"))
+			if (!ft_strcmp(fractal.name, "julia"))
 				iterations = fractal.func2(c, fractal.constant);
 			else
 				iterations = fractal.func(c);
