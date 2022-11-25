@@ -6,12 +6,13 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:02:47 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/25 16:40:33 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/25 16:46:38 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "../include/fract_ol.h"
+#include <math.h>
 
 int	get_rgba(int r, int g, int b, int a)
 {
@@ -40,6 +41,5 @@ int	ft_ordered_linear_colors(int iterations)
 	else
 	{
 		return ((RGB_MAX * iterations / ITER << 8) | 255);
-		// return ((0xffe901 * (sin(iterations) + 1) / 2.0 << 8) | 255);
 	}
 }

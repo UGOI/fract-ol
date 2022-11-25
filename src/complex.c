@@ -6,11 +6,12 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 17:21:46 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/25 16:40:24 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/25 16:47:06 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fract_ol.h"
+#include <math.h>
 
 t_complex	ft_add_complex(t_complex c1, t_complex c2)
 {
