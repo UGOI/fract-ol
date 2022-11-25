@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 19:18:44 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 20:43:43 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/25 19:09:11 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,8 @@ t_vector	zoom_point_to_coordinte(t_fractal zoomed_fractal, mlx_image_t *img, t_v
 
 void	ft_zoom(t_vector zoom_point_screen, int direction, t_scroll_hook_param *shp)
 {
-	// static t_fractal	zoomed_fractal;
 	t_vector			zoom_point_coordinate;
 
-	// if (!ft_fractal_initialized(zoomed_fractal))
-	// 	zoomed_fractal = fractal;
 	zoom_point_coordinate = zoom_point_to_coordinte(shp->fractal, shp->img, zoom_point_screen);
 	shp->fractal = ft_get_zoomed_fractal(shp->fractal,
 			zoom_point_coordinate, direction);

@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/25 18:46:23 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/25 21:51:40 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ t_complex get_c_from_args(int argc, char *argv[])
 	if (argc == 2)
 		c = (t_complex){-0.8, 0.156};
 	else
-		c = (t_complex){(long double)atof(argv[2]), (long double)atof(argv[3])};
+		c = (t_complex){(long double)ft_atof(argv[2]), (long double)ft_atof(argv[3])};
 	return (c);
 }
 
