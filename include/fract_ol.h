@@ -6,14 +6,14 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/25 22:10:21 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/27 18:40:38 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACT_OL_H
 # define FRACT_OL_H
 # include "MLX42/MLX42.h"
-# define ITER 50
+# define ITER 100
 # define RGB_MAX 16777215
 
 typedef struct s_complex
@@ -33,6 +33,13 @@ typedef struct s_monitor_size
 	int32_t	x;
 	int32_t	y;
 }	t_monitor_size;
+
+typedef struct s_frame
+{
+	int32_t		width;
+	int32_t		height;
+	t_vector	top_left;
+}	t_frame;
 
 typedef struct s_fractal
 {
@@ -93,6 +100,9 @@ int			ft_ordered_linear_colors(int iterations);
 
 void		shift_color(t_scroll_hook_param *shp, long double translation);
 
+//mlx_get_pixel
+uint32_t	mlx_get_pixel_color(mlx_image_t *image, uint32_t x, uint32_t y);
+
 //Fractal Init
 
 void		ft_initialize_mandelbrot(t_fractal *fractal);
@@ -111,8 +121,6 @@ int			ft_fractal_initialized(t_fractal fractal);
 
 void		ft_initialize_fractal(t_fractal *fractal, char *name, t_complex c);
 
-void		ft_initialize_fractal(t_fractal *fractal, char *name, t_complex c);
-
 //Zoom
 long double	ft_get_zoom_point_comp(long double zoom_point_comp, long double d_comp, int direction);
 
@@ -127,9 +135,11 @@ t_vector	ft_get_fractal_dimensions(t_fractal fractal);
 
 t_vector	ft_get_steps(t_vector dim, mlx_image_t *img);
 
+t_vector	ft_get_steps2(t_vector dim, t_frame frame);
+
 void		ft_draw_fractal(mlx_image_t *img, t_fractal fractal);
 
-void		ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_monitor_size m_size);
+void		ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_frame frame);
 
 //Hooks
 void		my_scrollhook(double xdelta, double ydelta, void *param);
@@ -145,5 +155,8 @@ long double translation);
 
 void	translate_fractal_vertical(t_scroll_hook_param *shp,
 long double translation);
+
+void	translate_fractal_horizontal_optimized(t_scroll_hook_param *shp,
+uint32_t pixel_translation);
 
 #endif

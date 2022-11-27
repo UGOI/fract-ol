@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/26 00:47:07 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/27 17:27:59 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,15 @@ t_vector	ft_get_steps(t_vector dim, mlx_image_t *img)
 	return (steps);
 }
 
+t_vector	ft_get_steps2(t_vector dim, t_frame frame)
+{
+	t_vector	steps;
+
+	steps.x = dim.x / (long double)frame.width;
+	steps.y = dim.y / (long double)frame.height;
+	return (steps);
+}
+
 void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 {
 	t_vector	iter;
@@ -61,6 +70,38 @@ void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 		while (iter.y < ((long double)img->height - 1))
 		{
 			c.imaginary = fractal.top_left.y - steps.y * (long double)iter.y;
+			if (!ft_strcmp(fractal.name, "julia"))
+				iterations = fractal.func2(c, fractal.constant);
+			else
+				iterations = fractal.func(c);
+			mlx_put_pixel(img, iter.x, iter.y,
+				ft_sinus_colors(iterations, fractal.col_shift));
+			iter.y++;
+		}
+	iter.x++;
+	iter.y = 0;
+	}
+}
+
+void	ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_frame frame)
+{
+	t_vector	iter;
+	t_complex	c;
+	t_vector	steps;
+	int			iterations;
+
+	iter = frame.top_left;
+	steps = ft_get_steps2(ft_get_fractal_dimensions(fractal), frame);
+	printf("%Lf, %Lf\n", iter.x, frame.top_left.x + ((long double)frame.width - 1));
+	printf("%Lf, %Lf\n", iter.y, frame.top_left.y + ((long double)frame.height - 1));
+	printf("%Lf, %Lf, %Lf, %Lf, %Lf, %Lf\n", fractal.top_left.x, fractal.top_left.y, fractal.top_right.x, fractal.top_right.y, fractal.bottom_left.x, fractal.bottom_left.y);
+	while (iter.x < frame.top_left.x + ((long double)frame.width - 1))
+	{
+
+		c.real = fractal.top_left.x + steps.x * ((long double)iter.x - frame.top_left.x);
+		while (iter.y < frame.top_left.y + ((long double)frame.height - 1))
+		{
+			c.imaginary = fractal.top_left.y - steps.y * ((long double)iter.y - frame.top_left.y);
 			if (!ft_strcmp(fractal.name, "julia"))
 				iterations = fractal.func2(c, fractal.constant);
 			else
