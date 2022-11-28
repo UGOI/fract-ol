@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/26 21:09:29 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/27 19:03:22 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,5 @@ int32_t	main(int argc, char *argv[])
 	mlx_loop(shp.mlx);
 	mlx_delete_image(shp.mlx, shp.img);
 	mlx_terminate(shp.mlx);
-
 	return (EXIT_SUCCESS);
-
 }

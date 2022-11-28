@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/27 18:40:38 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/28 17:29:21 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ typedef struct s_vector
 	long double	x;
 	long double	y;
 }	t_vector;
+
+typedef struct s_vector_uint32_t
+{
+	uint32_t	x;
+	uint32_t	y;
+}	t_vector_uint_32_t;
 
 typedef struct s_monitor_size
 {
@@ -141,6 +147,8 @@ void		ft_draw_fractal(mlx_image_t *img, t_fractal fractal);
 
 void		ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_frame frame);
 
+void		draw_fractal_func(mlx_image_t *img, t_fractal fractal, t_vector iter, t_complex c);
+
 //Hooks
 void		my_scrollhook(double xdelta, double ydelta, void *param);
 
@@ -156,7 +164,13 @@ long double translation);
 void	translate_fractal_vertical(t_scroll_hook_param *shp,
 long double translation);
 
-void	translate_fractal_horizontal_optimized(t_scroll_hook_param *shp,
-uint32_t pixel_translation);
+void	trans_fract_left(t_scroll_hook_param *shp,
+t_vector_uint_32_t pix_trans);
+
+void	trans_fract_right(t_scroll_hook_param *shp,
+t_vector_uint_32_t pix_trans);
+
+void	trans_fract_up(t_scroll_hook_param *shp,
+t_vector_uint_32_t pix_trans);
 
 #endif
