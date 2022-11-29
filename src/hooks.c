@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 22:04:16 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/29 12:09:43 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/29 21:09:14 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	long double			translation;
 
 	shp = param;
-	translation = 0.1 * (shp->fractal.top_right.x - shp->fractal.top_left.x);
+	translation = 0.1 * (shp->fractal.dim.x);
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		exit_safely(shp);
 	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)

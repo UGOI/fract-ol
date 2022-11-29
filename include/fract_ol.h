@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/29 14:13:16 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/29 21:05:16 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ typedef struct s_frame
 typedef struct s_fractal
 {
 	t_vector	top_left;
+	t_vector	dim;
+	//Depend on dim and top_left
 	t_vector	top_right;
 	t_vector	bottom_left;
+
 	int			julia;
 	char		*name;
 	t_complex	constant;
@@ -76,6 +79,25 @@ typedef struct s_scroll_hook_param
 	t_fractal		fractal;
 }	t_scroll_hook_param;
 
+//Fractal methods
+void		set_fractal_top_left(t_fractal *fractal, t_vector top_left);
+
+void		set_fractal_dim(t_fractal *fractal, t_vector dim);
+
+void		set_fractal_top_right(t_fractal *fractal, t_vector top_right);
+
+void		set_fractal_bottom_left(t_fractal *fractal, t_vector top_right);
+
+void		set_fractal_constant(t_fractal *fractal, t_complex constant);
+
+void		set_fractal_func(t_fractal *fractal, int (*func)(t_complex));
+
+void		set_fractal_col_shift(t_fractal *fractal, float col_shift);
+
+void		set_fractal_points_dep(t_fractal *fractal);
+
+//Complex operations
+
 t_complex	ft_add_complex(t_complex c1, t_complex c2);
 
 t_complex	ft_subtract_complex(t_complex c1, t_complex c2);
@@ -85,6 +107,12 @@ t_complex	ft_multiply_complex(t_complex c1, t_complex c2);
 t_complex	ft_power_complex(t_complex c1, long double pow);
 
 t_complex	ft_divide_complex(t_complex c1, t_complex c2);
+
+// Vector operations
+
+t_vector	add_vector(t_vector v1, t_vector v2);
+
+t_vector	sub_vector(t_vector v1, t_vector v2);
 
 long double	ft_squared_absolute_complex(t_complex c);
 
@@ -137,8 +165,6 @@ void		ft_zoom(t_vector zoom_point_screen, int direction, t_scroll_hook_param *sh
 
 //Draw Fractal
 void		ft_erase_img_content(mlx_image_t *img);
-
-t_vector	ft_get_fractal_dimensions(t_fractal fractal);
 
 t_vector	ft_get_steps(t_vector dim, mlx_image_t *img);
 

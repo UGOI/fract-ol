@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 19:18:44 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/26 00:36:55 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/29 18:51:55 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_fractal	ft_get_zoomed_fractal(t_fractal fractal
 	fractal.top_right.x = ft_get_zoom_point_comp(zoom_point_coordinate.x,
 			distances.right, direction);
 	fractal.top_right.y = fractal.top_left.y;
+	set_fractal_dim(&fractal, (t_vector){fractal.top_right.x - fractal.top_left.x, fractal.top_left.y - fractal.bottom_left.y});
 	return (fractal);
 }
 

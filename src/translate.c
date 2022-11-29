@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 00:28:50 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/29 14:22:00 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/29 21:14:00 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void	translate_fractal_horizontal(t_scroll_hook_param *shp,
 long double translation)
 {
 	shp->fractal.top_left.x += translation;
-	shp->fractal.top_right.x += translation;
-	shp->fractal.bottom_left.x += translation;
+	set_fractal_points_dep(&shp->fractal);
 	ft_draw_fractal(shp->img, shp->fractal);
 	return ;
 }
@@ -28,41 +27,23 @@ void	translate_fractal_vertical(t_scroll_hook_param *shp,
 long double translation)
 {
 	shp->fractal.top_left.y += translation;
-	shp->fractal.top_right.y += translation;
-	shp->fractal.bottom_left.y += translation;
+	set_fractal_points_dep(&shp->fractal);
 	ft_draw_fractal(shp->img, shp->fractal);
 	return ;
 }
 
+
+
 void	shift_fract_coord(t_fractal *fractal, t_vector coordinate_translation)
 {
-	fractal->top_left.x += coordinate_translation.x;
-	fractal->bottom_left.x += coordinate_translation.x;
-	fractal->top_right.x += coordinate_translation.x;
-	fractal->top_left.y += coordinate_translation.y;
-	fractal->bottom_left.y += coordinate_translation.y;
-	fractal->top_right.y += coordinate_translation.y;
+	set_fractal_top_left(fractal, add_vector(fractal->top_left, coordinate_translation));
+	set_fractal_points_dep(fractal);
 }
 
-void	put_trans_fract(mlx_image_t *img, t_vector iter, uint32_t pix_trans)
+void	put_trans_fract(mlx_image_t *img, t_vector iter, t_vector_uint_32_t pix_trans)
 {
-	int			iterations;
-	uint32_t	color;
-
-	color = mlx_get_pixel_color(img, iter.x, iter.y);
-	mlx_put_pixel(img, iter.x - pix_trans, iter.y,
-		color);
-	// printf("%Lf\n", iter.x);
-}
-
-void	put_trans_fract2(mlx_image_t *img, t_vector iter, t_vector_uint_32_t pix_trans)
-{
-	int			iterations;
-	uint32_t	color;
-
-	color = mlx_get_pixel_color(img, iter.x, iter.y);
 	mlx_put_pixel(img, iter.x - pix_trans.x, iter.y - pix_trans.y,
-		color);
+		mlx_get_pixel_color(img, iter.x, iter.y));
 }
 
 t_fractal	get_right_fract_sect(t_fractal fract, long double cord_trans)
@@ -70,8 +51,9 @@ t_fractal	get_right_fract_sect(t_fractal fract, long double cord_trans)
 	t_fractal	fract_sect;
 
 	fract_sect = fract;
-	fract_sect.top_left.x = fract_sect.top_right.x - cord_trans;
-	fract_sect.bottom_left.x = fract_sect.top_right.x - cord_trans;
+	fract_sect.top_left.x = fract_sect.top_left.x + fract_sect.dim.x - cord_trans;
+	fract_sect.dim.x = cord_trans;
+	set_fractal_points_dep(&fract_sect);
 	return (fract_sect);
 }
 
@@ -80,7 +62,8 @@ t_fractal	get_left_fract_sect(t_fractal fract, long double cord_trans)
 	t_fractal	fract_sect;
 
 	fract_sect = fract;
-	fract_sect.top_right.x = fract_sect.top_left.x + cord_trans;
+	fract_sect.dim.x = cord_trans;
+	fract_sect.top_right.x = fract_sect.top_left.x + fract.dim.x;
 	return (fract_sect);
 }
 
@@ -89,8 +72,9 @@ t_fractal	get_bottom_fract_sect(t_fractal fract, long double cord_trans)
 	t_fractal	fract_sect;
 
 	fract_sect = fract;
-	fract_sect.top_left.y = fract_sect.bottom_left.y + cord_trans;
-	fract_sect.top_right.y = fract_sect.bottom_left.y + cord_trans;
+	fract_sect.top_left.y = fract_sect.top_left.y - fract_sect.dim.y + cord_trans;
+	fract_sect.top_right.y = fract_sect.top_left.y;
+	fract_sect.dim.y = cord_trans;
 	return (fract_sect);
 }
 
@@ -99,7 +83,8 @@ t_fractal	create_top_fract(t_fractal fract, long double cord_trans)
 	t_fractal	fract_sect;
 
 	fract_sect = fract;
-	fract_sect.bottom_left.y = fract.top_left.y - cord_trans;
+	fract_sect.dim.y = cord_trans;
+	set_fractal_points_dep(&fract_sect);
 	return (fract_sect);
 }
 
@@ -146,14 +131,13 @@ t_vector_uint_32_t pix_trans)
 	long double	cord_trans;
 
 	cord_trans = (long double)pix_trans.x / (long double)shp->img->width
-		* ft_get_fractal_dimensions(shp->fractal).x;
+		* shp->fractal.dim.x;
 	iter = (t_vector){(long double)pix_trans.x, 0};
 	while (iter.x < ((long double)shp->img->width))
 	{
 		while (iter.y < ((long double)shp->img->height))
 		{
-			// put_trans_fract(shp->img, iter, pix_trans);
-			put_trans_fract2(shp->img, iter, pix_trans);
+			put_trans_fract(shp->img, iter, pix_trans);
 			iter.y++;
 		}
 	iter.x++;
@@ -171,14 +155,13 @@ t_vector_uint_32_t pix_trans)
 	long double	cord_trans;
 
 	cord_trans = (long double)pix_trans.x / (long double)shp->img->width
-		* ft_get_fractal_dimensions(shp->fractal).x;
+		* shp->fractal.dim.x;
 	iter = (t_vector){shp->img->width - (long double)pix_trans.x - 1, 0};
 	while (iter.x >= 0)
 	{
 		while (iter.y < ((long double)shp->img->height))
 		{
-			// put_trans_fract(shp->img, iter, -pix_trans);
-			put_trans_fract2(shp->img, iter, (t_vector_uint_32_t){-pix_trans.x, pix_trans.y});
+			put_trans_fract(shp->img, iter, (t_vector_uint_32_t){-pix_trans.x, pix_trans.y});
 			iter.y++;
 		}
 	iter.x--;
@@ -196,13 +179,13 @@ t_vector_uint_32_t pix_trans)
 	long double	cord_trans;
 
 	cord_trans = (long double)pix_trans.y / (long double)shp->img->height
-		* ft_get_fractal_dimensions(shp->fractal).y;
+		* shp->fractal.dim.y;
 	iter = (t_vector){0, (long double)pix_trans.y};
 	while (iter.y < ((long double)shp->img->height))
 	{
 		while (iter.x < ((long double)shp->img->width))
 		{
-			put_trans_fract2(shp->img, iter, (t_vector_uint_32_t){pix_trans.x, pix_trans.y});
+			put_trans_fract(shp->img, iter, (t_vector_uint_32_t){pix_trans.x, pix_trans.y});
 			iter.x++;
 		}
 	iter.y++;
@@ -220,13 +203,13 @@ t_vector_uint_32_t pix_trans)
 	long double	cord_trans;
 
 	cord_trans = (long double)pix_trans.y / (long double)shp->img->height
-		* ft_get_fractal_dimensions(shp->fractal).y;
+		* shp->fractal.dim.y;
 	iter = (t_vector){0, shp->img->height - 1 - (long double)pix_trans.y};
 	while (iter.y >= 0)
 	{
 		while (iter.x < ((long double)shp->img->width))
 		{
-			put_trans_fract2(shp->img, iter, (t_vector_uint_32_t){pix_trans.x, -pix_trans.y});
+			put_trans_fract(shp->img, iter, (t_vector_uint_32_t){pix_trans.x, -pix_trans.y});
 			iter.x++;
 		}
 	iter.y--;
