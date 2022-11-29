@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/28 19:47:09 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/29 14:08:32 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,27 +123,52 @@ void	draw_fractal_func(mlx_image_t *img, t_fractal fractal, t_vector iter, t_com
 		ft_sinus_colors(iterations, fractal.col_shift));
 }
 
-void	ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_frame frame)
+// void	ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_frame frame)
+// {
+// 	t_vector	iter;
+// 	t_complex	c;
+// 	t_vector	steps;
+// 	int			iterations;
+
+// 	iter = frame.top_left;
+// 	steps = ft_get_steps2(ft_get_fractal_dimensions(fractal), frame);
+// 	while (iter.x <= frame.top_left.x + ((long double)frame.width))
+// 	{
+// 		// printf("%Lf\n", iter.x);
+// 		c.real = fractal.top_left.x + steps.x * ((long double)iter.x - frame.top_left.x);
+// 		while (iter.y <= frame.top_left.y + ((long double)frame.height))
+// 		{
+// 			// printf("%Lf\n", iter.y);
+// 			c.imaginary = fractal.top_left.y - steps.y * ((long double)iter.y - frame.top_left.y);
+// 			draw_fractal_func(img, fractal, iter, c);
+// 			iter.y++;
+// 		}
+// 	iter.x++;
+// 	iter.y = frame.top_left.y;
+// 	}
+// }
+
+void	ft_draw_fractal2(mlx_image_t *img, t_fractal fractal)
 {
 	t_vector	iter;
 	t_complex	c;
 	t_vector	steps;
 	int			iterations;
 
-	iter = frame.top_left;
-	steps = ft_get_steps2(ft_get_fractal_dimensions(fractal), frame);
-	while (iter.x <= frame.top_left.x + ((long double)frame.width))
+	iter = fractal.frame.top_left;
+	steps = ft_get_steps2(ft_get_fractal_dimensions(fractal), fractal.frame);
+	while (iter.x <= fractal.frame.top_left.x + ((long double)fractal.frame.width))
 	{
 		// printf("%Lf\n", iter.x);
-		c.real = fractal.top_left.x + steps.x * ((long double)iter.x - frame.top_left.x);
-		while (iter.y <= frame.top_left.y + ((long double)frame.height))
+		c.real = fractal.top_left.x + steps.x * ((long double)iter.x - fractal.frame.top_left.x);
+		while (iter.y <= fractal.frame.top_left.y + ((long double)fractal.frame.height))
 		{
 			// printf("%Lf\n", iter.y);
-			c.imaginary = fractal.top_left.y - steps.y * ((long double)iter.y - frame.top_left.y);
+			c.imaginary = fractal.top_left.y - steps.y * ((long double)iter.y - fractal.frame.top_left.y);
 			draw_fractal_func(img, fractal, iter, c);
 			iter.y++;
 		}
 	iter.x++;
-	iter.y = frame.top_left.y;
+	iter.y = fractal.frame.top_left.y;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/29 12:10:18 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/29 14:08:15 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_fractal
 	int			(*func)(t_complex);
 	int			(*func2)(t_complex, t_complex);
 	float		col_shift;
+	t_frame		frame;
 }	t_fractal;
 
 typedef struct s_point_distances
@@ -145,7 +146,9 @@ t_vector	ft_get_steps2(t_vector dim, t_frame frame);
 
 void		ft_draw_fractal(mlx_image_t *img, t_fractal fractal);
 
-void		ft_draw_fractal2(mlx_image_t *img, t_fractal fractal, t_frame frame);
+void		ft_draw_fractal2(mlx_image_t *img, t_fractal fractal);
+
+// void		ft_draw_fractal2(mlx_image_t *img, t_fractal fractal);
 
 void		draw_fractal_func(mlx_image_t *img, t_fractal fractal, t_vector iter, t_complex c);
 
