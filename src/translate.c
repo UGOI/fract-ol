@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 00:28:50 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/28 19:50:23 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/29 12:26:39 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,15 @@ t_fractal	get_bottom_fract_sect(t_fractal fract, long double cord_trans)
 	return (fract_sect);
 }
 
+t_fractal	get_top_fract_sect(t_fractal fract, long double cord_trans)
+{
+	t_fractal	fract_sect;
+
+	fract_sect = fract;
+	fract_sect.bottom_left.y = fract.top_left.y - cord_trans;
+	return (fract_sect);
+}
+
 t_frame	get_right_frame_sect(mlx_image_t *img, long double pix_trans)
 {
 	t_frame	frame_sect;
@@ -122,6 +131,19 @@ t_frame	get_bottom_frame_sect(mlx_image_t *img, long double pix_trans)
 
 	frame_sect.top_left.x = 0;
 	frame_sect.top_left.y = img->height - pix_trans - 1;
+	frame_sect.width = img->width - 1;
+	frame_sect.height = pix_trans;
+
+	// printf("%Lf, %Lf, %d, %d", frame_sect.top_left.x, frame_sect.top_left.y, frame_sect.width, frame_sect.height);
+	return (frame_sect);
+}
+
+t_frame	get_top_frame_sect(mlx_image_t *img, long double pix_trans)
+{
+	t_frame	frame_sect;
+
+	frame_sect.top_left.x = 0;
+	frame_sect.top_left.y = 0;
 	frame_sect.width = img->width - 1;
 	frame_sect.height = pix_trans;
 
@@ -201,4 +223,28 @@ t_vector_uint_32_t pix_trans)
 	shift_fract_coord(&(shp->fractal), (t_vector){0, -cord_trans});
 	ft_draw_fractal2(shp->img, get_bottom_fract_sect(shp->fractal, cord_trans),
 		get_bottom_frame_sect(shp->img, pix_trans.y));
+}
+
+void	trans_fract_down(t_scroll_hook_param *shp,
+t_vector_uint_32_t pix_trans)
+{
+	t_vector	iter;
+	long double	cord_trans;
+
+	cord_trans = (long double)pix_trans.y / (long double)shp->img->height
+		* ft_get_fractal_dimensions(shp->fractal).y;
+	iter = (t_vector){0, shp->img->height - 1 - (long double)pix_trans.y};
+	while (iter.y >= 0)
+	{
+		while (iter.x < ((long double)shp->img->width))
+		{
+			put_trans_fract2(shp->img, iter, (t_vector_uint_32_t){pix_trans.x, -pix_trans.y});
+			iter.x++;
+		}
+	iter.y--;
+	iter.x = 0;
+	}
+	shift_fract_coord(&(shp->fractal), (t_vector){0, cord_trans});
+	ft_draw_fractal2(shp->img, get_top_fract_sect(shp->fractal, cord_trans),
+		get_top_frame_sect(shp->img, pix_trans.y));
 }

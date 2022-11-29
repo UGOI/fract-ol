@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/28 17:29:21 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/29 12:10:18 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,9 @@ void	trans_fract_right(t_scroll_hook_param *shp,
 t_vector_uint_32_t pix_trans);
 
 void	trans_fract_up(t_scroll_hook_param *shp,
+t_vector_uint_32_t pix_trans);
+
+void	trans_fract_down(t_scroll_hook_param *shp,
 t_vector_uint_32_t pix_trans);
 
 #endif

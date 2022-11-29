@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 22:04:16 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/28 17:03:05 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/29 12:09:43 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,6 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 		trans_fract_right(shp, (t_vector_uint_32_t){10, 0});
 	else if (keydata.key == MLX_KEY_K && keydata.action == MLX_PRESS)
 		trans_fract_up(shp, (t_vector_uint_32_t){0, 10});
+	else if (keydata.key == MLX_KEY_I && keydata.action == MLX_PRESS)
+		trans_fract_down(shp, (t_vector_uint_32_t){0, 10});
 }
