@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 19:18:44 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 12:56:22 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 16:53:59 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,5 @@ int direction, t_scroll_hook_param *shp)
 			shp->img, zoom_point_screen);
 	shp->fractal = ft_get_zoomed_fractal(shp->fractal,
 			zoom_point_coordinate, direction);
-	ft_draw_fractal(shp->img, shp->fractal);
+	ft_draw_fractal2(shp->img, shp->fractal);
 }

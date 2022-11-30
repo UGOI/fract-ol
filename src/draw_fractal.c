@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 13:19:57 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 16:52:31 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 #include "../include/fract_ol.h"
 #include "../lib/libft/ft_printf.h"
 #include "../lib/libft/libft.h"
-#define WIDTH 5120
-#define HEIGHT 2880
 
 void	ft_erase_img_content(mlx_image_t *img)
 {
@@ -57,6 +55,7 @@ void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
 	steps = ft_get_steps(fractal.dim, img);
 	while (iter.x < ((long double)img->width))
 	{
+		// printf("%Lf, %Lf\n", iter.x, iter.y);
 		c.real = fractal.top_left.x + steps.x * (long double)iter.x;
 		while (iter.y < ((long double)img->height))
 		{
@@ -92,6 +91,7 @@ void	ft_draw_fractal2(mlx_image_t *img, t_fractal fractal)
 	t_complex	c;
 	t_vector	steps;
 
+	// printf("Start\n");
 	iter = fractal.frame.top_left;
 	steps = ft_get_steps2(fractal.dim, fractal.frame);
 	while (iter.x <= fractal.frame.top_left.x + ((long double)fractal.frame.width))
@@ -103,6 +103,8 @@ void	ft_draw_fractal2(mlx_image_t *img, t_fractal fractal)
 			draw_fractal_func(img, fractal, iter, c);
 			iter.y++;
 		}
+		// printf("%Lf, %Lf\n", iter.x, iter.y);
+		// printf("%Lf, %Lf\n", fractal.frame.top_left.y, (long double)fractal.frame.height);
 	iter.x++;
 	iter.y = fractal.frame.top_left.y;
 	}

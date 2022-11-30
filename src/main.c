@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 13:56:41 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 15:22:20 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 #include "../include/fract_ol.h"
 #include "../lib/libft/libft.h"
 #include "../lib/libft/ft_printf.h"
-#define WIDTH 500
-#define HEIGHT 500
 
 static void	error(void)
 {
@@ -79,7 +77,7 @@ int32_t	main(int argc, char *argv[])
 		error();
 	mlx_scroll_hook(shp.mlx, &my_scrollhook, &shp);
 	mlx_key_hook(shp.mlx, &my_keyhook, &shp);
-	ft_draw_fractal(shp.img, (shp.fractal));
+	ft_draw_fractal2(shp.img, (shp.fractal));
 	if (mlx_image_to_window(shp.mlx, shp.img, 0, 0) < 0)
 		error();
 	mlx_loop(shp.mlx);

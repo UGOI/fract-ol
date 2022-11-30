@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 13:56:13 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 14:12:30 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # include "MLX42/MLX42.h"
 # define ITER 100
 # define RGB_MAX 16777215
+#define WIDTH 500
+#define HEIGHT 500
 
 typedef struct s_complex
 {
@@ -97,6 +99,8 @@ void		set_fractal_func2(t_fractal *fractal, int (*func)(t_complex z, t_complex c
 void		set_fractal_col_shift(t_fractal *fractal, float col_shift);
 
 void		set_fractal_name(t_fractal *fractal, char *name);
+
+void		set_fractal_frame(t_fractal *fractal, t_frame frame);
 
 //Complex operations
 

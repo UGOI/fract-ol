@@ -23,7 +23,7 @@ libft:
 	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) -L ${LIBFT} -lft -fsanitize=address
+	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) -L ${LIBFT} -lft -fsanitize=address -g
 
 clean:
 	@rm -f $(OBJS)
