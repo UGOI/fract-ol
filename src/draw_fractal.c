@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 16:52:31 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 21:00:38 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,36 +44,37 @@ t_vector	ft_get_steps2(t_vector dim, t_frame frame)
 	return (steps);
 }
 
-void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
-{
-	t_vector	iter;
-	t_complex	c;
-	t_vector	steps;
-	int			iterations;
+// void	ft_draw_fractal(mlx_image_t *img, t_fractal fractal)
+// {
+// 	t_vector	iter;
+// 	t_complex	c;
+// 	t_vector	steps;
+// 	int			iterations;
 
-	iter = (t_vector){0, 0};
-	steps = ft_get_steps(fractal.dim, img);
-	while (iter.x < ((long double)img->width))
-	{
-		// printf("%Lf, %Lf\n", iter.x, iter.y);
-		c.real = fractal.top_left.x + steps.x * (long double)iter.x;
-		while (iter.y < ((long double)img->height))
-		{
-			c.imaginary = fractal.top_left.y - steps.y * (long double)iter.y;
-			if (!ft_strcmp(fractal.name, "julia"))
-				iterations = fractal.func2(c, fractal.constant);
-			else
-				iterations = fractal.func(c);
-			mlx_put_pixel(img, iter.x, iter.y,
-				ft_sinus_colors(iterations, fractal.col_shift));
-			iter.y++;
-		}
-	iter.x++;
-	iter.y = 0;
-	}
-}
+// 	iter = (t_vector){0, 0};
+// 	steps = ft_get_steps(fractal.dim, img);
+// 	while (iter.x < ((long double)img->width))
+// 	{
+// 		// printf("%Lf, %Lf\n", iter.x, iter.y);
+// 		c.real = fractal.top_left.x + steps.x * (long double)iter.x;
+// 		while (iter.y < ((long double)img->height))
+// 		{
+// 			c.imaginary = fractal.top_left.y - steps.y * (long double)iter.y;
+// 			if (!ft_strcmp(fractal.name, "julia"))
+// 				iterations = fractal.func2(c, fractal.constant);
+// 			else
+// 				iterations = fractal.func(c);
+// 			mlx_put_pixel(img, iter.x, iter.y,
+// 				ft_sinus_colors(iterations, fractal.col_shift));
+// 			iter.y++;
+// 		}
+// 	iter.x++;
+// 	iter.y = 0;
+// 	}
+// }
 
-void	draw_fractal_func(mlx_image_t *img, t_fractal fractal, t_vector iter, t_complex c)
+void	draw_fractal_func(mlx_image_t *img, t_fractal fractal,
+	t_vector iter, t_complex c)
 {
 	int			iterations;
 
@@ -91,20 +92,21 @@ void	ft_draw_fractal2(mlx_image_t *img, t_fractal fractal)
 	t_complex	c;
 	t_vector	steps;
 
-	// printf("Start\n");
 	iter = fractal.frame.top_left;
 	steps = ft_get_steps2(fractal.dim, fractal.frame);
-	while (iter.x <= fractal.frame.top_left.x + ((long double)fractal.frame.width))
+	while (iter.x <= fractal.frame.top_left.x
+		+ ((long double)fractal.frame.width))
 	{
-		c.real = fractal.top_left.x + steps.x * ((long double)iter.x - fractal.frame.top_left.x);
-		while (iter.y <= fractal.frame.top_left.y + ((long double)fractal.frame.height))
+		c.real = fractal.top_left.x + steps.x * ((long double)iter.x
+				- fractal.frame.top_left.x);
+		while (iter.y <= fractal.frame.top_left.y
+			+ ((long double)fractal.frame.height))
 		{
-			c.imaginary = fractal.top_left.y - steps.y * ((long double)iter.y - fractal.frame.top_left.y);
+			c.imaginary = fractal.top_left.y - steps.y
+				* ((long double)iter.y - fractal.frame.top_left.y);
 			draw_fractal_func(img, fractal, iter, c);
 			iter.y++;
 		}
-		// printf("%Lf, %Lf\n", iter.x, iter.y);
-		// printf("%Lf, %Lf\n", fractal.frame.top_left.y, (long double)fractal.frame.height);
 	iter.x++;
 	iter.y = fractal.frame.top_left.y;
 	}

@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 14:12:30 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 21:27:08 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # include "MLX42/MLX42.h"
 # define ITER 100
 # define RGB_MAX 16777215
-#define WIDTH 500
-#define HEIGHT 500
+# define WIDTH 500
+# define HEIGHT 500
 
 typedef struct s_complex
 {
@@ -53,11 +53,6 @@ typedef struct s_fractal
 {
 	t_vector	top_left;
 	t_vector	dim;
-
-	// t_vector	top_right;
-	// t_vector	bottom_left;
-
-	// int			julia;
 	char		*name;
 	t_complex	constant;
 	int			(*func)(t_complex);
@@ -86,15 +81,12 @@ void		set_fractal_top_left(t_fractal *fractal, t_vector top_left);
 
 void		set_fractal_dim(t_fractal *fractal, t_vector dim);
 
-// void		set_fractal_top_right(t_fractal *fractal, t_vector top_right);
-
-// void		set_fractal_bottom_left(t_fractal *fractal, t_vector top_right);
-
 void		set_fractal_constant(t_fractal *fractal, t_complex constant);
 
 void		set_fractal_func(t_fractal *fractal, int (*func)(t_complex));
 
-void		set_fractal_func2(t_fractal *fractal, int (*func)(t_complex z, t_complex c));
+void		set_fractal_func2(t_fractal *fractal,
+				int (*func)(t_complex z, t_complex c));
 
 void		set_fractal_col_shift(t_fractal *fractal, float col_shift);
 
@@ -163,11 +155,14 @@ int			ft_fractal_initialized(t_fractal fractal);
 void		ft_initialize_fractal(t_fractal *fractal, char *name, t_complex c);
 
 //Zoom
-long double	ft_get_zoom_point_comp(long double zoom_point_comp, long double d_comp, int direction);
+long double	ft_get_zoom_point_comp(long double zoom_point_comp,
+				long double d_comp, int direction);
 
-t_fractal	ft_get_zoomed_fractal(t_fractal fractal, t_vector zoom_point, int direction);
+t_fractal	ft_get_zoomed_fractal(t_fractal fractal,
+				t_vector zoom_point, int direction);
 
-void		ft_zoom(t_vector zoom_point_screen, int direction, t_scroll_hook_param *shp);
+void		ft_zoom(t_vector zoom_point_screen, int direction,
+				t_scroll_hook_param *shp);
 
 //Draw Fractal
 void		ft_erase_img_content(mlx_image_t *img);
@@ -180,7 +175,8 @@ void		ft_draw_fractal(mlx_image_t *img, t_fractal fractal);
 
 void		ft_draw_fractal2(mlx_image_t *img, t_fractal fractal);
 
-void		draw_fractal_func(mlx_image_t *img, t_fractal fractal, t_vector iter, t_complex c);
+void		draw_fractal_func(mlx_image_t *img, t_fractal fractal,
+				t_vector iter, t_complex c);
 
 //Hooks
 void		my_scrollhook(double xdelta, double ydelta, void *param);
@@ -191,22 +187,27 @@ void		my_keyhook(mlx_key_data_t keydata, void *param);
 
 void		exit_safely(t_scroll_hook_param *shp);
 
-// void	translate_fractal_horizontal(t_scroll_hook_param *shp,
-// long double translation);
+//Translate Utils
+void		shift_fract_coord(t_fractal *fractal,
+				t_vector coordinate_translation);
 
-// void	translate_fractal_vertical(t_scroll_hook_param *shp,
-// long double translation);
+void		put_trans_fract(mlx_image_t *img,
+				t_vector iter, t_vector pix_trans);
 
-void	trans_fract_left(t_scroll_hook_param *shp,
-t_vector_uint_32_t pix_trans);
+t_fractal	get_fract_sect(t_fractal fract, t_vector cord_trans);
 
-void	trans_fract_right(t_scroll_hook_param *shp,
-t_vector_uint_32_t pix_trans);
+void		set_frame(mlx_image_t *img, t_vector pix_trans, t_fractal *fract);
 
-void	trans_fract_up(t_scroll_hook_param *shp,
-t_vector_uint_32_t pix_trans);
+//Translate
+void		trans_fract_left(t_scroll_hook_param *shp,
+				t_vector pix_trans);
 
-void	trans_fract_down(t_scroll_hook_param *shp,
-t_vector_uint_32_t pix_trans);
+void		trans_fract_right(t_scroll_hook_param *shp,
+				t_vector pix_trans);
 
+void		trans_fract_up(t_scroll_hook_param *shp,
+				t_vector pix_trans);
+
+void		trans_fract_down(t_scroll_hook_param *shp,
+				t_vector pix_trans);
 #endif

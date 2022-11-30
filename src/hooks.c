@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 22:04:16 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 13:52:35 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 20:38:38 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ void	my_keyhook(mlx_key_data_t keydata, void *param)
 	else if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
 		shift_color(shp, -0.1);
 	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
-		trans_fract_left(shp, (t_vector_uint_32_t){10, 0});
+		trans_fract_left(shp, (t_vector){10, 0});
 	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
-		trans_fract_right(shp, (t_vector_uint_32_t){10, 0});
+		trans_fract_right(shp, (t_vector){10, 0});
 	else if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
-		trans_fract_up(shp, (t_vector_uint_32_t){0, 10});
+		trans_fract_up(shp, (t_vector){0, 10});
 	else if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
-		trans_fract_down(shp, (t_vector_uint_32_t){0, 10});
+		trans_fract_down(shp, (t_vector){0, 10});
 }

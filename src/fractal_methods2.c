@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_get_pixel_color.c                              :+:      :+:    :+:   */
+/*   fractal_methods2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/26 21:47:54 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 21:12:14 by sdukic           ###   ########.fr       */
+/*   Created: 2022/11/29 15:01:25 by sdukic            #+#    #+#             */
+/*   Updated: 2022/11/30 21:06:29 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "MLX42/MLX42.h"
 #include "../include/fract_ol.h"
 
-uint32_t	mlx_get_pixel_color(mlx_image_t *image, uint32_t x, uint32_t y)
+void	set_fractal_col_shift(t_fractal *fractal,
+	float col_shift)
 {
-	uint8_t		*pixelstart;
-	uint32_t	color;
+	fractal->col_shift = col_shift;
+}
 
-	pixelstart = &image->pixels[(y * image->width + x) * sizeof(int32_t)];
-	color = get_rgba(*(pixelstart), *(pixelstart + 1),
-			*(pixelstart + 2), *(pixelstart + 3));
-	return (color);
+void	set_fractal_name(t_fractal *fractal,
+	char *name)
+{
+	fractal->name = name;
+}
+
+void	set_fractal_frame(t_fractal *fractal,
+	t_frame frame)
+{
+	fractal->frame = frame;
 }

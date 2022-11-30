@@ -6,14 +6,14 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:02:47 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 16:52:16 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 20:58:12 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "../include/fract_ol.h"
 #include <math.h>
-#include<stdio.h>
+#include <stdio.h>
 
 int	get_rgba(int r, int g, int b, int a)
 {
@@ -47,8 +47,6 @@ int	ft_ordered_linear_colors(int iterations)
 
 void	shift_color(t_scroll_hook_param *shp, long double translation)
 {
-	// printf("%Lf, %Lf\n", shp->fractal.top_left.x, shp->fractal.top_left.y);
-	// printf("%Lf, %Lf\n", shp->fractal.frame.top_left.x, shp->fractal.frame.top_left.y);
 	shp->fractal.col_shift += translation;
 	ft_draw_fractal2(shp->img, shp->fractal);
 	return ;
