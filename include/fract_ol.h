@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/29 21:05:16 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 13:56:13 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ typedef struct s_fractal
 {
 	t_vector	top_left;
 	t_vector	dim;
-	//Depend on dim and top_left
-	t_vector	top_right;
-	t_vector	bottom_left;
 
-	int			julia;
+	// t_vector	top_right;
+	// t_vector	bottom_left;
+
+	// int			julia;
 	char		*name;
 	t_complex	constant;
 	int			(*func)(t_complex);
@@ -84,17 +84,19 @@ void		set_fractal_top_left(t_fractal *fractal, t_vector top_left);
 
 void		set_fractal_dim(t_fractal *fractal, t_vector dim);
 
-void		set_fractal_top_right(t_fractal *fractal, t_vector top_right);
+// void		set_fractal_top_right(t_fractal *fractal, t_vector top_right);
 
-void		set_fractal_bottom_left(t_fractal *fractal, t_vector top_right);
+// void		set_fractal_bottom_left(t_fractal *fractal, t_vector top_right);
 
 void		set_fractal_constant(t_fractal *fractal, t_complex constant);
 
 void		set_fractal_func(t_fractal *fractal, int (*func)(t_complex));
 
+void		set_fractal_func2(t_fractal *fractal, int (*func)(t_complex z, t_complex c));
+
 void		set_fractal_col_shift(t_fractal *fractal, float col_shift);
 
-void		set_fractal_points_dep(t_fractal *fractal);
+void		set_fractal_name(t_fractal *fractal, char *name);
 
 //Complex operations
 
@@ -144,7 +146,7 @@ void		ft_initialize_mandelbrot(t_fractal *fractal);
 
 void		ft_initialize_julia(t_fractal *fractal, t_complex constant);
 
-void		ft_initialize_eye(t_fractal *mandelbrot);
+void		ft_initialize_eye(t_fractal *fractal);
 
 void		ft_initialize_mandelbrot3(t_fractal *fractal);
 
@@ -185,11 +187,11 @@ void		my_keyhook(mlx_key_data_t keydata, void *param);
 
 void		exit_safely(t_scroll_hook_param *shp);
 
-void	translate_fractal_horizontal(t_scroll_hook_param *shp,
-long double translation);
+// void	translate_fractal_horizontal(t_scroll_hook_param *shp,
+// long double translation);
 
-void	translate_fractal_vertical(t_scroll_hook_param *shp,
-long double translation);
+// void	translate_fractal_vertical(t_scroll_hook_param *shp,
+// long double translation);
 
 void	trans_fract_left(t_scroll_hook_param *shp,
 t_vector_uint_32_t pix_trans);

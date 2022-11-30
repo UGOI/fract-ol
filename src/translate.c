@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 00:28:50 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/29 21:14:00 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 13:52:48 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,9 @@
 #include "MLX42/MLX42.h"
 #include <stdio.h>
 
-void	translate_fractal_horizontal(t_scroll_hook_param *shp,
-long double translation)
-{
-	shp->fractal.top_left.x += translation;
-	set_fractal_points_dep(&shp->fractal);
-	ft_draw_fractal(shp->img, shp->fractal);
-	return ;
-}
-
-void	translate_fractal_vertical(t_scroll_hook_param *shp,
-long double translation)
-{
-	shp->fractal.top_left.y += translation;
-	set_fractal_points_dep(&shp->fractal);
-	ft_draw_fractal(shp->img, shp->fractal);
-	return ;
-}
-
-
-
 void	shift_fract_coord(t_fractal *fractal, t_vector coordinate_translation)
 {
 	set_fractal_top_left(fractal, add_vector(fractal->top_left, coordinate_translation));
-	set_fractal_points_dep(fractal);
 }
 
 void	put_trans_fract(mlx_image_t *img, t_vector iter, t_vector_uint_32_t pix_trans)
@@ -53,7 +32,6 @@ t_fractal	get_right_fract_sect(t_fractal fract, long double cord_trans)
 	fract_sect = fract;
 	fract_sect.top_left.x = fract_sect.top_left.x + fract_sect.dim.x - cord_trans;
 	fract_sect.dim.x = cord_trans;
-	set_fractal_points_dep(&fract_sect);
 	return (fract_sect);
 }
 
@@ -63,7 +41,6 @@ t_fractal	get_left_fract_sect(t_fractal fract, long double cord_trans)
 
 	fract_sect = fract;
 	fract_sect.dim.x = cord_trans;
-	fract_sect.top_right.x = fract_sect.top_left.x + fract.dim.x;
 	return (fract_sect);
 }
 
@@ -73,7 +50,6 @@ t_fractal	get_bottom_fract_sect(t_fractal fract, long double cord_trans)
 
 	fract_sect = fract;
 	fract_sect.top_left.y = fract_sect.top_left.y - fract_sect.dim.y + cord_trans;
-	fract_sect.top_right.y = fract_sect.top_left.y;
 	fract_sect.dim.y = cord_trans;
 	return (fract_sect);
 }
@@ -84,7 +60,6 @@ t_fractal	create_top_fract(t_fractal fract, long double cord_trans)
 
 	fract_sect = fract;
 	fract_sect.dim.y = cord_trans;
-	set_fractal_points_dep(&fract_sect);
 	return (fract_sect);
 }
 

@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractals.c                                         :+:      :+:    :+:   */
+/*   fractal_formulas.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 01:28:22 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 10:48:28 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 14:05:06 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fract_ol.h"
+#include "stdio.h"
 
 // int	nova(t_complex c)
 // {
@@ -88,7 +89,7 @@ int	eye(t_complex c)
 	{
 		if (ft_squared_absolute_complex(z) > 4)
 			return (iterations);
-		z = ft_multiply_complex(z, z);
+		z = ft_power_complex(z, 2);
 		z = ft_add_complex(z, ft_divide_complex((t_complex){1, 0}, c));
 	}
 	return (0);

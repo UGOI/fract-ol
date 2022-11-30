@@ -1,6 +1,6 @@
 NAME	:= fract_ol
-CFLAGS	:= -g
-CFLAGS2	:= -Wextra -Wall -Werror -Wunreachable-code -Ofast -g -fsanitize=address
+CFLAGS2	:= -g
+CFLAGS	:= -Wextra -Wall -Werror -g -fsanitize=address
 LIBMLX	:= ./lib/MLX42
 LIBFT	:= ./lib/libft
 BREW = $(shell which brew | rev | cut -c 9- | rev)
@@ -23,7 +23,7 @@ libft:
 	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS) && printf "Compiling: $(notdir $<)"
 
 $(NAME): $(OBJS)
-	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) -L ${LIBFT} -lft
+	@$(CC) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) -L ${LIBFT} -lft -fsanitize=address
 
 clean:
 	@rm -f $(OBJS)

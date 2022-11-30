@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 22:04:16 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/29 21:09:14 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 13:52:35 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	my_scrollhook(double xdelta, double ydelta, void *param)
 	int32_t				y;
 	t_scroll_hook_param	*shp;
 
+	(void)xdelta;
+	(void)ydelta;
 	shp = param;
 	mlx_get_mouse_pos(shp->mlx, &x, &y);
 	zoom_point.x = (long double)x;
@@ -41,7 +43,6 @@ void	my_scrollhook(double xdelta, double ydelta, void *param)
 void	my_resizehook(int32_t width, int32_t height, void *param)
 {
 	t_scroll_hook_param	*shp;
-	t_monitor_size		m_size;
 
 	shp = param;
 	mlx_resize_image(shp->img, width, height);
@@ -50,31 +51,22 @@ void	my_resizehook(int32_t width, int32_t height, void *param)
 void	my_keyhook(mlx_key_data_t keydata, void *param)
 {
 	t_scroll_hook_param	*shp;
-	t_monitor_size		m_size;
 	long double			translation;
 
 	shp = param;
 	translation = 0.1 * (shp->fractal.dim.x);
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 		exit_safely(shp);
-	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
-		translate_fractal_horizontal(shp, translation);
-	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
-		translate_fractal_horizontal(shp, -translation);
-	else if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
-		translate_fractal_vertical(shp, -translation);
-	else if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
-		translate_fractal_vertical(shp, translation);
 	else if (keydata.key == MLX_KEY_A && keydata.action == MLX_PRESS)
 		shift_color(shp, 0.1);
 	else if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
 		shift_color(shp, -0.1);
-	else if (keydata.key == MLX_KEY_L && keydata.action == MLX_PRESS)
+	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_PRESS)
 		trans_fract_left(shp, (t_vector_uint_32_t){10, 0});
-	else if (keydata.key == MLX_KEY_J && keydata.action == MLX_PRESS)
+	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_PRESS)
 		trans_fract_right(shp, (t_vector_uint_32_t){10, 0});
-	else if (keydata.key == MLX_KEY_K && keydata.action == MLX_PRESS)
+	else if (keydata.key == MLX_KEY_DOWN && keydata.action == MLX_PRESS)
 		trans_fract_up(shp, (t_vector_uint_32_t){0, 10});
-	else if (keydata.key == MLX_KEY_I && keydata.action == MLX_PRESS)
+	else if (keydata.key == MLX_KEY_UP && keydata.action == MLX_PRESS)
 		trans_fract_down(shp, (t_vector_uint_32_t){0, 10});
 }

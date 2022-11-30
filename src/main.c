@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/27 19:03:22 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 13:56:41 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	check_main_param(int argc, char *argv[])
 	correct = (argc != 3 && argc <= 4 && (!ft_strcmp(argv[1], "mandelbrot")
 				|| !ft_strcmp(argv[1], "julia")
 				|| !ft_strcmp(argv[1], "mandelbrot3")
+				|| !ft_strcmp(argv[1], "eye")
 				|| !ft_strcmp(argv[1], "mandelbrot4")));
 	if (!correct)
 		ft_printf("Usage: ./fract_ol <name> <num> <num>\n");
