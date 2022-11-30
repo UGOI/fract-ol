@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:02:47 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 20:58:12 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 23:35:50 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 #include "../include/fract_ol.h"
 #include <math.h>
 #include <stdio.h>
-
-int	get_rgba(int r, int g, int b, int a)
-{
-	return (r << 24 | g << 16 | b << 8 | a);
-}
+#include "../lib/libft/libft.h"
+#include "../lib/libft/ft_printf.h"
 
 int	ft_sinus_colors(int iterations, float shift)
 {
@@ -45,9 +42,34 @@ int	ft_ordered_linear_colors(int iterations)
 	}
 }
 
+uint32_t	get_shifted_color(uint32_t rgba, float col_shift)
+{
+	return (get_rgba(get_r(rgba) + (int)col_shift, get_g(rgba) + (int)col_shift, get_b(rgba) + (int)col_shift, get_a(rgba)));
+}
+
+void	change_color_for_each_pixel(t_scroll_hook_param *shp)
+{
+	t_vector	iter;
+
+	iter = (t_vector){0, 0};
+	// printf("Hello/n");
+	while (iter.x < ((long double)shp->img->width))
+	{
+		while (iter.y < ((long double)shp->img->height))
+		{
+			mlx_put_pixel(shp->img, iter.x, iter.y,
+				mlx_get_pixel_color(shp->img, iter.x, iter.y));
+			iter.y++;
+		}
+	iter.x++;
+	iter.y = 0;
+	}
+}
+
 void	shift_color(t_scroll_hook_param *shp, long double translation)
 {
 	shp->fractal.col_shift += translation;
+	// change_color_for_each_pixel(shp);
 	ft_draw_fractal2(shp->img, shp->fractal);
 	return ;
 }

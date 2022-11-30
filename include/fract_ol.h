@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 21:27:08 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 22:46:02 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,8 @@ int			ft_ordered_linear_colors(int iterations);
 
 void		shift_color(t_scroll_hook_param *shp, long double translation);
 
+void		change_color_for_each_pixel(t_scroll_hook_param *shp);
+
 //mlx_get_pixel
 uint32_t	mlx_get_pixel_color(mlx_image_t *image, uint32_t x, uint32_t y);
 
@@ -210,4 +212,16 @@ void		trans_fract_up(t_scroll_hook_param *shp,
 
 void		trans_fract_down(t_scroll_hook_param *shp,
 				t_vector pix_trans);
+
+//RGBA
+int			get_rgba(int r, int g, int b, int a);
+
+int			get_r(int rgba);
+
+int			get_g(int rgba);
+
+int			get_b(int rgba);
+
+int			get_a(int rgba);
+
 #endif
