@@ -36,4 +36,8 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re, libmlx, libft
+install:
+	brew update
+	brew install glfw
+
+.PHONY: all, clean, fclean, re, libmlx, libft, install
