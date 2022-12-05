@@ -1,44 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractals.c                                         :+:      :+:    :+:   */
+/*   fractal_formulas.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 01:28:22 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/24 10:48:28 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/11/30 21:01:35 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fract_ol.h"
-
-// int	nova(t_complex c)
-// {
-// 	t_complex	z;
-// 	int			iterations;
-
-// 	z.real = 0.5;
-// 	z.imaginary = 0.5;
-// 	iterations = 0;
-// 	while (iterations++ < ITER)
-// 	{
-// 		if (ft_squared_absolute_complex(z) > 4)
-// 			return (iterations);
-// 		z = ft_add_complex(
-// 				ft_subtract_complex(
-// 					z,
-// 					ft_divide_complex(
-// 						ft_subtract_complex(ft_power_complex(z, 3),
-// 							(t_complex){1, 0}),
-// 						ft_multiply_complex((t_complex){3, 0},
-// 							ft_power_complex(z, 2))
-// 						)
-// 					),
-// 				c
-// 				);
-// 	}
-// 	return (0);
-// }
+#include "stdio.h"
 
 int	mandelbrot3(t_complex c)
 {
@@ -88,7 +61,7 @@ int	eye(t_complex c)
 	{
 		if (ft_squared_absolute_complex(z) > 4)
 			return (iterations);
-		z = ft_multiply_complex(z, z);
+		z = ft_power_complex(z, 2);
 		z = ft_add_complex(z, ft_divide_complex((t_complex){1, 0}, c));
 	}
 	return (0);

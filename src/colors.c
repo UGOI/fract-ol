@@ -6,18 +6,16 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 18:02:47 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/25 22:03:18 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/12/05 08:40:25 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "../include/fract_ol.h"
 #include <math.h>
-
-int	get_rgba(int r, int g, int b, int a)
-{
-	return (r << 24 | g << 16 | b << 8 | a);
-}
+#include <stdio.h>
+#include "../lib/libft/libft.h"
+#include "../lib/libft/ft_printf.h"
 
 int	ft_sinus_colors(int iterations, float shift)
 {
@@ -47,6 +45,6 @@ int	ft_ordered_linear_colors(int iterations)
 void	shift_color(t_scroll_hook_param *shp, long double translation)
 {
 	shp->fractal.col_shift += translation;
-	ft_draw_fractal(shp->img, shp->fractal);
+	ft_draw_fractal2(shp->img, shp->fractal);
 	return ;
 }

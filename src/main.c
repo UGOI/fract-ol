@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/26 00:34:46 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/12/05 12:42:36 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,36 +20,6 @@
 #include "../include/fract_ol.h"
 #include "../lib/libft/libft.h"
 #include "../lib/libft/ft_printf.h"
-#define WIDTH 500
-#define HEIGHT 500
-
-static void	error(void)
-{
-	puts(mlx_strerror(mlx_errno));
-	exit(EXIT_FAILURE);
-}
-
-void	exit_safely(t_scroll_hook_param *shp)
-{
-	mlx_delete_image(shp->mlx, shp->img);
-	mlx_terminate(shp->mlx);
-	ft_printf("\nExited safely!!!\n");
-	exit(1);
-	return ;
-}
-
-int	check_main_param(int argc, char *argv[])
-{
-	int	correct;
-
-	correct = (argc != 3 && argc <= 4 && (!ft_strcmp(argv[1], "mandelbrot")
-				|| !ft_strcmp(argv[1], "julia")
-				|| !ft_strcmp(argv[1], "mandelbrot3")
-				|| !ft_strcmp(argv[1], "mandelbrot4")));
-	if (!correct)
-		ft_printf("Usage: ./fract_ol <name> <num> <num>\n");
-	return (correct);
-}
 
 t_complex	get_c_from_args(int argc, char *argv[])
 {
@@ -66,10 +36,12 @@ t_complex	get_c_from_args(int argc, char *argv[])
 int32_t	main(int argc, char *argv[])
 {
 	t_scroll_hook_param	shp;
+	t_resize_hook_param	rhp;
 
 	if (!check_main_param(argc, argv))
 		return (0);
-	ft_initialize_fractal(&(shp.fractal), argv[1], get_c_from_args(argc, argv));
+	ft_initialize_fractal(&(shp.fractal), argv[1],
+		get_c_from_args(argc, argv), (t_vector){WIDTH, HEIGHT});
 	shp.mlx = mlx_init(WIDTH, HEIGHT, "Test", true);
 	if (!shp.mlx)
 		error();
@@ -78,7 +50,10 @@ int32_t	main(int argc, char *argv[])
 		error();
 	mlx_scroll_hook(shp.mlx, &my_scrollhook, &shp);
 	mlx_key_hook(shp.mlx, &my_keyhook, &shp);
-	ft_draw_fractal(shp.img, (shp.fractal));
+	rhp = (t_resize_hook_param){&shp, argc, argv[1],
+		get_c_from_args(argc, argv)};
+	mlx_resize_hook(shp.mlx, &my_resizehook, &rhp);
+	ft_draw_fractal2(shp.img, (shp.fractal));
 	if (mlx_image_to_window(shp.mlx, shp.img, 0, 0) < 0)
 		error();
 	mlx_loop(shp.mlx);
