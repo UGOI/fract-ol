@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 22:46:02 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/12/05 09:25:34 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,5 +223,10 @@ int			get_g(int rgba);
 int			get_b(int rgba);
 
 int			get_a(int rgba);
+
+//Error
+void		error(void);
+
+int			check_main_param(int argc, char *argv[]);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 22:04:16 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 20:38:38 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/12/05 09:21:48 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@
 #include "../include/fract_ol.h"
 #include "../lib/libft/libft.h"
 #include "../lib/libft/ft_printf.h"
+
+void	exit_safely(t_scroll_hook_param *shp)
+{
+	mlx_delete_image(shp->mlx, shp->img);
+	mlx_terminate(shp->mlx);
+	ft_printf("\nExited safely!!!\n");
+	exit(1);
+	return ;
+}
 
 void	my_scrollhook(double xdelta, double ydelta, void *param)
 {

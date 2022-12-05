@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:29:06 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/30 15:22:20 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/12/05 09:28:07 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,35 +20,6 @@
 #include "../include/fract_ol.h"
 #include "../lib/libft/libft.h"
 #include "../lib/libft/ft_printf.h"
-
-static void	error(void)
-{
-	puts(mlx_strerror(mlx_errno));
-	exit(EXIT_FAILURE);
-}
-
-void	exit_safely(t_scroll_hook_param *shp)
-{
-	mlx_delete_image(shp->mlx, shp->img);
-	mlx_terminate(shp->mlx);
-	ft_printf("\nExited safely!!!\n");
-	exit(1);
-	return ;
-}
-
-int	check_main_param(int argc, char *argv[])
-{
-	int	correct;
-
-	correct = (argc != 3 && argc <= 4 && (!ft_strcmp(argv[1], "mandelbrot")
-				|| !ft_strcmp(argv[1], "julia")
-				|| !ft_strcmp(argv[1], "mandelbrot3")
-				|| !ft_strcmp(argv[1], "eye")
-				|| !ft_strcmp(argv[1], "mandelbrot4")));
-	if (!correct)
-		ft_printf("Usage: ./fract_ol <name> <num> <num>\n");
-	return (correct);
-}
 
 t_complex	get_c_from_args(int argc, char *argv[])
 {

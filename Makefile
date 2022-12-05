@@ -1,6 +1,5 @@
 NAME	:= fract_ol
-CFLAGS2	:= -g
-CFLAGS	:= -Wextra -Wall -Werror -g -fsanitize=address
+CFLAGS	:= -Wextra -Wall -Werror -fsanitize=address
 LIBMLX	:= ./lib/MLX42
 LIBFT	:= ./lib/libft
 BREW = $(shell which brew | rev | cut -c 9- | rev)
