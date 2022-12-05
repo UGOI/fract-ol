@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/12/05 12:44:05 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/12/05 14:00:29 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,13 +150,14 @@ uint32_t	mlx_get_pixel_color(mlx_image_t *image, uint32_t x, uint32_t y);
 
 void		ft_initialize_mandelbrot(t_fractal *fractal, t_vector screen_dim);
 
-void		ft_initialize_julia(t_fractal *fractal, t_complex constant);
+void		ft_initialize_julia(t_fractal *fractal, t_complex constant,
+				t_vector screen_dim);
 
-void		ft_initialize_eye(t_fractal *fractal);
+void		ft_initialize_eye(t_fractal *fractal, t_vector screen_dim);
 
-void		ft_initialize_mandelbrot3(t_fractal *fractal);
+void		ft_initialize_mandelbrot3(t_fractal *fractal, t_vector screen_dim);
 
-void		ft_initialize_mandelbrot4(t_fractal *fractal);
+void		ft_initialize_mandelbrot4(t_fractal *fractal, t_vector screen_dim);
 
 int			ft_fractal_initialized(t_fractal fractal);
 
