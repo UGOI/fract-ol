@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 16:54:38 by sdukic            #+#    #+#             */
-/*   Updated: 2022/12/05 09:25:34 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/12/05 12:44:05 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,14 @@ typedef struct s_scroll_hook_param
 	t_fractal		fractal;
 }	t_scroll_hook_param;
 
+typedef struct s_resize_hook_param
+{
+	t_scroll_hook_param	*shp;
+	int					argc;
+	char				*fract_name;
+	t_complex			c;
+}	t_resize_hook_param;
+
 //Fractal methods
 void		set_fractal_top_left(t_fractal *fractal, t_vector top_left);
 
@@ -140,7 +148,7 @@ uint32_t	mlx_get_pixel_color(mlx_image_t *image, uint32_t x, uint32_t y);
 
 //Fractal Init
 
-void		ft_initialize_mandelbrot(t_fractal *fractal);
+void		ft_initialize_mandelbrot(t_fractal *fractal, t_vector screen_dim);
 
 void		ft_initialize_julia(t_fractal *fractal, t_complex constant);
 
@@ -154,7 +162,8 @@ int			ft_fractal_initialized(t_fractal fractal);
 
 //Fractal Init utils
 
-void		ft_initialize_fractal(t_fractal *fractal, char *name, t_complex c);
+void		ft_initialize_fractal(t_fractal *fractal, char *name,
+				t_complex c, t_vector screen_dim);
 
 //Zoom
 long double	ft_get_zoom_point_comp(long double zoom_point_comp,
