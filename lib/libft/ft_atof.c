@@ -6,7 +6,7 @@
 /*   By: sdukic <sdukic@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 19:13:08 by sdukic            #+#    #+#             */
-/*   Updated: 2022/11/26 00:49:55 by sdukic           ###   ########.fr       */
+/*   Updated: 2022/12/05 16:19:14 by sdukic           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ float	ft_atof(const char *str)
 	char	str_copy[100];
 
 	ft_strlcpy(str_copy, str, 100);
+	if (ft_strchr(str_copy, '.') == NULL)
+		return (ft_atoi(str_copy));
 	at_point = ft_strchr(str_copy, '.');
 	after_point = at_point + 1;
 	len_after_point = ft_strlen(after_point) + 1;
